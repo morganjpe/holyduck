@@ -8,7 +8,7 @@ import { products } from "../mocks/api-mock";
 // components
 import Product from "./Product";
 
-const ProductList = ({ addToBasket }) => {
+const ProductList = ({showModal}) => {
   const [prodData, setProdData] = useState([]);
 
   useEffect(() => {
@@ -21,15 +21,13 @@ const ProductList = ({ addToBasket }) => {
   }, [prodData]);
 
   return (
-    <div>
       <ProductList.container>
         {prodData.map((product) => {
           return (
-            <Product addToBasket={addToBasket} key={product.id} {...product} />
+            <Product showModal={showModal} key={product.id} {...product} />
           );
         })}
       </ProductList.container>
-    </div>
   );
 };
 
@@ -40,7 +38,7 @@ ProductList.container = styled.ul`
 `;
 
 ProductList.propTypes = {
-  addToBasket: propTypes.func.isRequired,
+  showModal: propTypes.func.isRequired,
 };
 
 export default ProductList;
