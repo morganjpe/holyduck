@@ -4,16 +4,24 @@ import tw, { styled } from "twin.macro";
 const Header = () => {
   return (
     <Header.container>
-      <Header.logo>
-        <h1>Holy Duck!</h1>
-      </Header.logo>
+      <Header.inner>
+        <Header.logo>
+          <h1>Holy Duck!</h1>
+        </Header.logo>
+      </Header.inner>
     </Header.container>
   );
 };
 
 Header.container = styled.nav`
+  background-color: rgb(236, 96, 90);
+  width: 100%;
+  color: white;
+  /* border-bottom: 7px solid #FFD791; */
+`;
+
+Header.inner = styled.div`
   ${tw`mx-auto container flex`}
-  border-bottom: 1px solid #eee;
 `;
 
 Header.nav = styled.nav`

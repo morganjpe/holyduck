@@ -16,7 +16,7 @@ const Product = ({
   const mainImg = img[0];
 
   const shortDesc = (description) => {
-    return `${description.slice(0, 80)}...`;
+    return `${description.slice(0, 70)}...`;
   };
 
   const modalPayload = {
@@ -31,10 +31,9 @@ const Product = ({
   return (
     <>
       <Product.container stock={stock} onClick={stock ? () => showModal(modalPayload) : null}>
-        <Product.price>&pound;{price}</Product.price>
         <Product.image title={name} src={mainImg} />
         <Product.desc>
-          <h3>{name}</h3>
+          <span><h3>{name}</h3><p>&pound;{price.toFixed(2)}</p></span>
           <p>{shortDesc(desc)}</p>
         </Product.desc>
       </Product.container>
@@ -48,7 +47,7 @@ Product.container = styled.li`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px 15px 20px 0;
   border-bottom: 1px solid #eee;
   position: relative;
   cursor: ${({stock}) => stock ? 'pointer' : 'not-allowed'};
@@ -68,10 +67,32 @@ Product.image = styled.div`
 Product.desc = styled.div`
   padding-left: 15px;
   width: calc(100% - 81px);
-  h3,
-  p {
-    width: 100%;
+
+  span {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+   
+    p {
+      display: inline;
+      text-align: right;
+      margin: 0;
+      padding: 5px 10px;
+      background-color: rgb(236, 96, 90);
+      border-radius: 5px;
+      color: white;
+    }
   }
+
+  p {
+    font-size: 14px;
+  }
+
 `;
 
 Product.price = styled.span`

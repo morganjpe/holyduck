@@ -14,8 +14,7 @@ const Modal = ({
 }) => {
 
     const [quantity, setQuantity] = useState(1);
-
-    // console.log(props)
+    const [err, setErr] = useState(false);
 
     const incQuantity = () => {
         if(quantity + 1 <= 10 /* stock */) {
@@ -49,7 +48,12 @@ const Modal = ({
                     <Modal.button onClick={decQuantity}>-</Modal.button>
                     <Modal.quantity value={quantity} readOnly />
                     <Modal.button onClick={incQuantity}>+</Modal.button>
-                    <Modal.addToBasket onClick={() => addToBasket(basketPayload, quantity)}>
+
+                    {err ? 'you have exeeded total quantity' : ''}
+
+                    <Modal.addToBasket onClick={() => setErr(
+                        addToBasket(basketPayload, quantity)
+                    )}>
                         Add To Basket
                     </Modal.addToBasket>
                 </Modal.content>

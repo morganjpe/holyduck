@@ -35,7 +35,12 @@ ProductList.container = styled.ul`
   ${tw`w-full md:w-1/2`}
   padding: 0;
   margin: 0;
+  height: calc(100vh - 60px);
+  border-right: 1px solid #eee;
+  overflow: scroll;
 `;
+
+
 
 ProductList.propTypes = {
   showModal: propTypes.func.isRequired,

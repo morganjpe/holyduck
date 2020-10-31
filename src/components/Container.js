@@ -11,9 +11,4 @@ const Container = ({children}) => {
     </section>
   )
 }
-
-// const Container = styled.section`
-//   ${tw`container m-auto flex`}
-// `;
-
 export default Container;
