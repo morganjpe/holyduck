@@ -2,12 +2,26 @@ import React from 'react';
 import propTypes from 'prop-types';
 import tw, {styled} from 'twin.macro';
 
-const BasketItem = ({item}) => {
+const BasketItem = ({name, quantity, price}) => {
+   
     return(
-        <li>
-            {item.name} - {item.quantity} - £{item.price * item.quantity}
-        </li>
+        <BasketItem.container>
+
+            {name} - {quantity} - £{(price * quantity).toFixed(2)}
+        </BasketItem.container>
     )
+}
+
+BasketItem.container = styled.li`
+    ${tw`flex flex-wrap`}
+`;
+
+
+
+BasketItem.propTypes = {
+    name: propTypes.string.isRequired,
+    quantity: propTypes.number.isRequired,
+    price: propTypes.number.isRequired,
 }
 
 const BasketList = ({basketItems}) => {
@@ -16,7 +30,8 @@ const BasketList = ({basketItems}) => {
         <BasketList.container>
             <ul>
                 {basketItems.length ? basketItems.map(item => {
-                    return <BasketItem key={item.id} item={item} />
+                    console.log(item);
+                    return <BasketItem key={item.id} {...item} />
                 }) : <li>Your basket is empty</li>}
             </ul>
         </BasketList.container>

@@ -2,6 +2,9 @@ import React, {useState} from "react";
 import propTypes, { string } from 'prop-types';
 import tw, {styled} from 'twin.macro';
 
+// components
+import Toggle from './Toggle';
+
 const Modal = ({
     name, 
     price, 
@@ -28,6 +31,14 @@ const Modal = ({
         }  
     }
 
+    const quantityReducer = action => {
+        switch(action) {
+            case 'DECREMENT' : return decQuantity();
+            case 'INCREMENT' : return incQuantity();
+            default: return quantity;
+        }
+    }
+
     const basketPayload = {
         name, 
         price, 
@@ -38,13 +49,13 @@ const Modal = ({
     }
 
     return(
-        // createPortal(
-            // <>
             <Modal.container>
                 <Modal.overlay onClick={close} />
                 <Modal.content>
                     <h2>{name}</h2>
                     <p>{desc}</p>
+
+                    <Toggle quantity={quantity} quantityReducer={quantityReducer} />
                     <Modal.button onClick={decQuantity}>-</Modal.button>
                     <Modal.quantity value={quantity} readOnly />
                     <Modal.button onClick={incQuantity}>+</Modal.button>
@@ -58,9 +69,6 @@ const Modal = ({
                     </Modal.addToBasket>
                 </Modal.content>
             </Modal.container>
-            // </>
-            // document.getElementById('root')
-        // )
     )
 }
 
