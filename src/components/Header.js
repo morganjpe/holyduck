@@ -17,6 +17,7 @@ Header.container = styled.nav`
   background-color: ${({theme}) => theme.colors.hd_red};
   width: 100%;
   color: white;
+  height: 200px;  
   /* border-bottom: 7px solid #FFD791; */
 `;
 

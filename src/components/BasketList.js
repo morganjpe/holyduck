@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import tw, {styled} from 'twin.macro';
 
+// components
+import Toggle from './Toggle';
+
 const BasketItem = ({name, quantity, price}) => {
-   
+
+    const [value, setValue] = useState(quantity);
+
     return(
         <BasketItem.container>
-
+            {/* <Toggle quantity={value} quantityReducer={} /> */}
             {name} - {quantity} - £{(price * quantity).toFixed(2)}
         </BasketItem.container>
     )
@@ -24,12 +29,12 @@ BasketItem.propTypes = {
     price: propTypes.number.isRequired,
 }
 
-const BasketList = ({basketItems}) => {
-    console.log(basketItems);
+const BasketList = ({basket}) => {
+    console.log(basket);
     return(
         <BasketList.container>
             <ul>
-                {basketItems.length ? basketItems.map(item => {
+                {basket.length ? basket.map(item => {
                     console.log(item);
                     return <BasketItem key={item.id} {...item} />
                 }) : <li>Your basket is empty</li>}

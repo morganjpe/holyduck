@@ -40,8 +40,6 @@ ProductList.container = styled.ul`
   overflow: scroll;
 `;
 
-
-
 ProductList.propTypes = {
   showModal: propTypes.func.isRequired,
 };

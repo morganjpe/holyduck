@@ -83,7 +83,7 @@ Product.desc = styled.div`
       text-align: right;
       margin: 0;
       padding: 5px 10px;
-      background-color: rgb(236, 96, 90);
+      background-color: ${({theme}) => theme.colors.hd_red};
       border-radius: 5px;
       color: white;
     }

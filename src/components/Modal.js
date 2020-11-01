@@ -1,9 +1,13 @@
 import React, {useState} from "react";
 import propTypes, { string } from 'prop-types';
 import tw, {styled} from 'twin.macro';
+import {findIndex} from 'lodash';
 
 // components
 import Toggle from './Toggle';
+
+// state commands
+import {CREATE, UPDATE} from '../state/commands';
 
 const Modal = ({
     name, 
@@ -13,11 +17,42 @@ const Modal = ({
     stock,
     id,
     close,
-    addToBasket,
+    // addToBasket,
+    setBasket,
+    basket
 }) => {
 
     const [quantity, setQuantity] = useState(1);
     const [err, setErr] = useState(false);
+
+    const basketPayload = {
+        name, 
+        price, 
+        desc, 
+        img,
+        stock,
+        id,
+    }
+
+    const addToBasket = () => {
+        const index = findIndex(basket, item => item.id === id);
+        // if index exists and is within quantity range
+        if(index > -1 && basket[index].quantity + quantity <= stock) {
+            // already exists
+            close();
+            return setBasket({
+                type: UPDATE,
+                payload: {index, quantity}
+            });
+        } else if(quantity <= stock && index === -1) {
+            close();
+            return setBasket({
+                type: CREATE, 
+                payload: { item: {...basketPayload, quantity} }
+            });
+        }
+        setErr(true);
+    }
 
     const incQuantity = () => {
         if(quantity + 1 <= 10 /* stock */) {
@@ -39,15 +74,6 @@ const Modal = ({
         }
     }
 
-    const basketPayload = {
-        name, 
-        price, 
-        desc, 
-        img,
-        stock,
-        id,
-    }
-
     return(
             <Modal.container>
                 <Modal.overlay onClick={close} />
@@ -62,9 +88,7 @@ const Modal = ({
 
                     {err ? 'you have exeeded total quantity' : ''}
 
-                    <Modal.addToBasket onClick={() => setErr(
-                        addToBasket(basketPayload, quantity)
-                    )}>
+                    <Modal.addToBasket onClick={addToBasket}>
                         Add To Basket
                     </Modal.addToBasket>
                 </Modal.content>
@@ -115,7 +139,7 @@ Modal.propTypes = {
     stock: propTypes.number.isRequired,
     close: propTypes.func.isRequired,
     id: propTypes.number.isRequired,
-    addToBasket: propTypes.func.isRequired
+    // addToBasket: propTypes.func.isRequired
 }
 
 export default Modal;

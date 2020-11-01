@@ -1,19 +1,23 @@
 import React from 'react';
 import tw,{styled} from 'twin.macro';
 import propTypes from 'prop-types';
-import { number } from 'prop-types';
 
-const Toggle = ({quantity, quantityReducer}) => {
+const Toggle = ({quantity, quantityReducer}) => {   
     return(
         <Toggle.container>
-            
-            <input type="number" readOnly value={quantity} />
+            <Toggle.button onClick={() => quantityReducer("DECREMENT")}>
+                &minus;
+            </Toggle.button>
+            <Toggle.value>{quantity}</Toggle.value>
+            <Toggle.button onClick={() => quantityReducer("INCREMENT")}>
+                &#43;
+            </Toggle.button>
         </Toggle.container>
     )
 }
 
 Toggle.container = styled.div`
-    ${tw`flex flex-wrap`}
+    ${tw`flex justify-between`}
 `;
 
 Toggle.button = styled.button`
@@ -21,11 +25,15 @@ Toggle.button = styled.button`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 3px solid
+    border: 2px solid ${({theme}) => theme.colors.hd_red};
+    background-color: white;
+    color: ${({theme}) => theme.colors.hd_red};
+    font-weight: 700;
 `;
 
-Toggle.input = styled.input`
-
+Toggle.value = styled.span`
+    /* border: none;
+    width:  */
 `;
 
 Toggle.propTypes = {

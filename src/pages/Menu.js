@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 
 // components
 import Container from "../components/Container";
@@ -8,10 +8,14 @@ import Modal from '../components/Modal';
 import BasketList from '../components/BasketList';
 import Checkout from "../components/Checkout";
 
+// reducers 
+import {basketReducer} from '../state/reducers';
+
 function Menu() {
 
   // basket
-  const [basket, setBasket] = useState([]);
+    const [basket, setBasket] = useState([]);
+    const [basketR, setBasketR] = useReducer(basketReducer, []);
 
   // modal 
   const [activeModal, setActiveModal] = useState(false);
@@ -51,18 +55,21 @@ function Menu() {
 
   };
 
+
+
   return (
     <>
       <Header />
       <Container>
         <ProductList showModal={showModal} />
-        <BasketList basketItems={basket} />
+        <BasketList basket={basketR} />
         <Checkout />
       </Container>
 
       { activeModal ? (
         <Modal 
-          addToBasket={addToBasket}
+          basket={basketR}
+          setBasket={setBasketR}
           close={closeModal} 
           {...modalData} />
       ) : '' }
