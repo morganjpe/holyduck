@@ -9,7 +9,7 @@ import BasketList from '../components/BasketList';
 import Checkout from "../components/Checkout";
 
 // reducers 
-import {basketReducer} from '../state/reducers';
+import {basketReducer} from '../state/basket';
 
 function Menu() {
 
@@ -36,7 +36,7 @@ function Menu() {
       <Container>
         <ProductList showModal={showModal} />
         <BasketList setBasket={setBasket} basket={basket} />
-        <Checkout />
+        {basket.length ? <Checkout basket={basket} /> : '' } 
       </Container>
 
       { activeModal ? (

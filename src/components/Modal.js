@@ -7,7 +7,7 @@ import {findIndex} from 'lodash';
 import Toggle from './Toggle';
 
 // state commands
-import {CREATE, UPDATE} from '../state/commands';
+import {CREATE, UPDATE} from '../state/basket/commands';
 
 const Modal = ({
     name, 
@@ -38,17 +38,17 @@ const Modal = ({
         // if index exists and is within quantity range
         if(index > -1 && basket[index].quantity + quantity <= stock) {
             // already exists
-            close();
-            return setBasket({
+            setBasket({
                 type: UPDATE,
-                payload: {index, quantity}
+                payload: {index, quantity: quantity + basket[index].quantity} 
             });
-        } else if(quantity <= stock && index === -1) {
             close();
-            return setBasket({
+        } else if(quantity <= stock && index === -1) {
+            setBasket({
                 type: CREATE, 
                 payload: { item: {...basketPayload, quantity} }
             });
+            close();
         }
         setErr(true);
     }
@@ -81,9 +81,6 @@ const Modal = ({
                     <p>{desc}</p>
 
                     <Toggle quantity={quantity} quantityReducer={quantityReducer} />
-                    <Modal.button onClick={decQuantity}>-</Modal.button>
-                    <Modal.quantity value={quantity} readOnly />
-                    <Modal.button onClick={incQuantity}>+</Modal.button>
 
                     {err ? 'you have exeeded total quantity' : ''}
 

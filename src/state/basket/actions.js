@@ -4,10 +4,12 @@ export const createBasketItem = (state, item) => {
 
 export const updateBasketItem = (state, index, quantity) => {
     const stateCopy = [...state];
-    stateCopy[index].quantity += quantity;
+    stateCopy[index].quantity = quantity;
     return stateCopy;
 }
 
 export const deleteBasketItem = (state, index) => {
-    return state.splice(index, 1);
+    var stateCopy = [...state];
+    stateCopy.splice(index, 1)
+    return stateCopy;
 }
