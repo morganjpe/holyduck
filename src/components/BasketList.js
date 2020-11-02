@@ -5,9 +5,12 @@ import tw, {styled} from 'twin.macro';
 // components
 import Toggle from './Toggle';
 
+// state 
+// import {basketReducer} from '../state/reducers';
+
 const BasketItem = ({name, quantity, price}) => {
 
-    const [value, setValue] = useState(quantity);
+    // const [value, setValue] = useState(quantity);
 
     return(
         <BasketItem.container>
@@ -30,13 +33,12 @@ BasketItem.propTypes = {
 }
 
 const BasketList = ({basket}) => {
-    console.log(basket);
     return(
         <BasketList.container>
             <ul>
-                {basket.length ? basket.map(item => {
+                {basket.length ? basket.map((item, index) => {
                     console.log(item);
-                    return <BasketItem key={item.id} {...item} />
+                    return <BasketItem key={item.id} index={index} {...item} />
                 }) : <li>Your basket is empty</li>}
             </ul>
         </BasketList.container>

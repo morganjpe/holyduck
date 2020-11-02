@@ -17,7 +17,6 @@ const Modal = ({
     stock,
     id,
     close,
-    // addToBasket,
     setBasket,
     basket
 }) => {
