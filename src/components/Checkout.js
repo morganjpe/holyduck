@@ -1,14 +1,30 @@
 import React from 'react';
 import tw,{styled} from 'twin.macro';
+import socketIOClient from "socket.io-client";
+// import io
+// import axios from 'axios'
 
 // components 
 import {Button} from './Button';
 
 const Checkout = ({basket}) => {
-    console.log(basket);
     const total = basket
         .map(({price, quantity}) => price * quantity)
         .reduce((prev, next) => prev + next ).toFixed(2);
+
+    const checkout = () => {
+       console.log('clicked')
+       const socket = socketIOClient('http://localhost:3001')
+       console.log(socket);
+
+    socket.emit('order', JSON.stringify(basket))
+
+
+    //    socket.on("FromAPI", data => {
+    //        console.log(data);
+    //    })
+    }
+
     return(
         <Checkout.container>
             <Checkout.grid>
@@ -23,7 +39,7 @@ const Checkout = ({basket}) => {
                         SubTotal: <span>&pound; {(total * 1.2).toFixed(2)}</span>
                     </li>
                 </ul>         
-                <Button>Checkout Now</Button>
+                <Button onClick={checkout}>Checkout Now</Button>
             </Checkout.grid>
 
         </Checkout.container>

@@ -5,6 +5,7 @@ import {findIndex} from 'lodash';
 
 // components
 import Toggle from './Toggle';
+import {Button} from './Button';
 
 // state commands
 import {CREATE, UPDATE} from '../state/basket/commands';
@@ -84,9 +85,9 @@ const Modal = ({
 
                     {err ? 'you have exeeded total quantity' : ''}
 
-                    <Modal.addToBasket onClick={addToBasket}>
+                    <Button onClick={addToBasket}>
                         Add To Basket
-                    </Modal.addToBasket>
+                    </Button>
                 </Modal.content>
             </Modal.container>
     )
@@ -120,12 +121,6 @@ Modal.content = styled.div`
 Modal.quantity = styled.input``;
 
 Modal.button = styled.button``;
-
-Modal.addToBasket = styled.button`
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-`;
 
 Modal.propTypes = {
     name: propTypes.string.isRequired,
