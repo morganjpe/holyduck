@@ -1,5 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, createContext} from 'react';
 // import socketIOClient from 'socket.io-client';
+
+const wait = time => new Promise((resolve) => setTimeout(resolve, time));
+
+const getUser = () => wait(1000).then(() => ({login: '1234'}));
+
+const AuthContext = createContext();
+
+const AuthProvider = ({children}) => {
+    const [state, setState] = useState({
+        status: 'pending',
+        error: null,
+        user: null,
+    });
+    useEffect(() => {
+        getUser().then(
+            user => setState({...state, status: 'success', user: user}),
+            error => setState({...state, status: 'error', user: null})
+        );
+    }, []);
+
+    return(
+        <AuthContext.Provider value={state}>
+            {state.status === 'pending' ? (
+                'Loading... '
+            ) : state.error ? (
+                <div><pre>state.error</pre></div>
+            ) : (
+                children
+            )}
+        </AuthContext.Provider>
+    )
+}
+
 
 const Orders = () => {
 
@@ -23,9 +56,11 @@ const Orders = () => {
     //     })
     // });
 
-    if(orders.length) {
-        return(
-            <ul>
+    return(
+        <AuthProvider>
+            {orders.length ? (
+
+                <ul>
                 {orders.map(order => {
                     return(
                         <li key={order.orderTime}>
@@ -42,11 +77,11 @@ const Orders = () => {
                         </li>
                     )
                 })}
-            </ul>
-        )
-    }
+                </ul>
 
-    return 'no orders currently';
+            ) : 'no orders currently'}
+        </AuthProvider>
+    )
 
 
 }
