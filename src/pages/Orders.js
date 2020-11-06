@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import socketIOClient from 'socket.io-client';
+// import socketIOClient from 'socket.io-client';
 
 const Orders = () => {
 
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const socket = socketIOClient('http://localhost:3001');
-        console.log(socket);
-        socket.on('order_views', data => {
+    // useEffect(() => {
+    //     const socket = socketIOClient('http://localhost:3001');
+    //     console.log(socket);
+    //     socket.on('order_views', data => {
 
-            const date = new Date();
+    //         const date = new Date();
 
-            const order = {
-                orderDetails: JSON.parse(data),
-                orderTime: `${date.getHours()}:${date.getMinutes()}`
-            }
+    //         const order = {
+    //             orderDetails: JSON.parse(data),
+    //             orderTime: `${date.getHours()}:${date.getMinutes()}`
+    //         }
 
-            console.log(order);
+    //         console.log(order);
         
-            setOrders([...orders, order]);
-        })
-    });
+    //         setOrders([...orders, order]);
+    //     })
+    // });
 
     if(orders.length) {
         return(
