@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes, { string } from "prop-types";
+import propTypes from "prop-types";
 import { styled } from "twin.macro";
 
 const Product = ({ 

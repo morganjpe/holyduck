@@ -34,7 +34,7 @@ const CheckoutModal = ({basket, showModal}) => {
             // check that the stock is okay
             axios.get(`http://localhost:3001/menu_items${id}`)
                 .then(({data}) => {
-                    if(data.stock - quantity) {
+                    if(data.stock - quantity >=0) {
                         return axios
                             .put(`http://localhost:3001/update_stock${id}`, {
                                 quantity: stock - quantity,
@@ -43,10 +43,11 @@ const CheckoutModal = ({basket, showModal}) => {
                     return false
                 })
                 .then(res => {
+                    console.log(res);
                     if(!res) {
                         throw new Error('cancel');
                     } else {
-                        history.push('/confirmation')
+                        history.push('/confirmation', {order});
                         console.log(res.data);
                         console.log(order);
                     }
