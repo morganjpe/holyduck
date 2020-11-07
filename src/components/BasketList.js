@@ -51,17 +51,25 @@ const BasketItem = ({
 
     return(
         <BasketItem.container>
-            <Toggle quantity={value} quantityReducer={quantityReducer} />
-            {name} - {quantity} - £{(price * quantity).toFixed(2)}
+            <Toggle quantity={value} max={stock} quantityReducer={quantityReducer} />
+            <BasketItem.details>
+                <span>{name}</span>
+                <span>£{(price * quantity).toFixed(2)}</span>
+            </BasketItem.details>
         </BasketItem.container>
     )
 }
 
 BasketItem.container = styled.li`
-    ${tw`flex flex-wrap`}
+    ${tw`flex`}
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 `;
 
-
+BasketItem.details = styled.div`
+    ${tw`flex justify-between`}
+    padding-left: 10px;
+`;
 
 BasketItem.propTypes = {
     name: propTypes.string.isRequired,
@@ -69,27 +77,27 @@ BasketItem.propTypes = {
     price: propTypes.number.isRequired,
 }
 
+
 const BasketList = ({basket, setBasket}) => {
 
     return(
-        <BasketList.container>
-            <ul>
-                {basket.length ? basket.map((item, index) => {
-                    console.log(item);
-                    return <BasketItem  
-                                key={item.id} 
-                                setBasket={setBasket}
-                                index={index}
-                                basket={basket}
-                                {...item} />
-                }) : <li>Your basket is empty</li>}
-            </ul>
-        </BasketList.container>
+        <BasketList.list>
+            {basket.length ? basket.map((item, index) => {
+                return <BasketItem  
+                        key={item.id} 
+                        setBasket={setBasket}
+                        index={index}
+                        basket={basket}
+                        {...item} />
+            }) : <li style={{padding: '10px 0', borderBottom: '1px solid #eee'}}>Your basket is empty</li>}
+        </BasketList.list>
     )
 }
 
-BasketList.container = styled.section`
-    ${tw`w-full md:w-1/2`}
+BasketList.list = styled.ul`
+    list-style: none;
+    padding: 0;
+    margin: 0;
 `;
 
 export default BasketList;

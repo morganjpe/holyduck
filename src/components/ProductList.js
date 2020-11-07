@@ -1,43 +1,90 @@
 import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
+import axios from 'axios';
 
 // mock data
-import { products } from "../mocks/api-mock";
+import { group } from "../mocks/api-mock";
 
 // components
 import Product from "./Product";
 
-const ProductList = ({showModal}) => {
-  const [prodData, setProdData] = useState([]);
+
+const ProductListGroup = ({prodData, groupKey, showModal}) => {
+
+  const [groupData, setGroupData] = useState({});
 
   useEffect(() => {
-    if (products.length) {
-      // mimic api lag
+
+    if(!Object.keys(groupData)) {
       setTimeout(() => {
-        setProdData(products);
-      }, 1500);
+        setGroupData(group['groupKey']);
+      }, 500) // mock timeout
     }
-  }, [prodData]);
+
+  }, [groupData]);
+
+  if(!Object.keys(groupData)) {
+
+  }
+
+  return(
+    <div>
+      loading ... 
+    </div>
+  )
+
+
+}
+
+
+const ProductList = ({showModal}) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+
+   
+
+    if (!products.length) {
+
+      console.log(products);
+
+      axios.get('http://localhost:3001/menu_items')
+        .then(({data}) => setProducts(data)); 
+
+    }
+  }, [products]);
 
   return (
-      <ProductList.container>
-        {prodData.map((product) => {
+    <ProductList.container>
+      <h3>Order Here</h3>
+      <ProductList.list>
+        {products.map((product) => {
           return (
             <Product showModal={showModal} key={product.id} {...product} />
           );
         })}
-      </ProductList.container>
+      </ProductList.list>
+    </ProductList.container>
   );
 };
 
-ProductList.container = styled.ul`
-  ${tw`w-full md:w-1/2`}
+
+ProductList.container = styled.section`
+  margin-top: -60px;
+  ${tw`w-full md:w-2/3`}
+  border: 1px solid #eee;
+  min-height: 100vh;
+  background-color: white;
+  padding: 0px 15px;
+  border-radius: 6px;
+`;
+
+ProductList.list = styled.ul`
+
   padding: 0;
   margin: 0;
-  height: calc(100vh - 60px);
-  border-right: 1px solid #eee;
-  overflow: scroll;
+
 `;
 
 ProductList.propTypes = {

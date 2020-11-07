@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import propTypes, { string } from 'prop-types';
+import propTypes from 'prop-types';
 import tw, {styled} from 'twin.macro';
 import {findIndex} from 'lodash';
 
@@ -29,7 +29,6 @@ const Modal = ({
         name, 
         price, 
         desc, 
-        img,
         stock,
         id,
     }
@@ -55,7 +54,7 @@ const Modal = ({
     }
 
     const incQuantity = () => {
-        if(quantity + 1 <= 10 /* stock */) {
+        if(quantity + 1 <= stock) {
             setQuantity(quantity + 1);
         }
     }
@@ -78,12 +77,14 @@ const Modal = ({
             <Modal.container>
                 <Modal.overlay onClick={close} />
                 <Modal.content>
-                    <h2>{name}</h2>
-                    <p>{desc}</p>
+                    <Modal.image img={img} />
+                    <Modal.content.inner>
+                        <h2>{name}</h2>
+                        <p>{desc}</p>
+                        <Toggle quantity={quantity} max={stock} quantityReducer={quantityReducer} />
+                        {err ? 'you have exeeded total quantity' : ''}
 
-                    <Toggle quantity={quantity} quantityReducer={quantityReducer} />
-
-                    {err ? 'you have exeeded total quantity' : ''}
+                    </Modal.content.inner>
 
                     <Button onClick={addToBasket}>
                         Add To Basket
@@ -110,23 +111,37 @@ Modal.overlay = styled.div`
     height: 100vh;
     background: rgba(0,0,0,.8);
     z-index: 1001;
+    cursor: pointer;
 `;
 
 Modal.content = styled.div`
     ${tw`w-full md:w-1/2`}
     background: white;
     z-index: 1002;
+    overflow: hidden;
+    border-radius: 10px;
 `;
 
-Modal.quantity = styled.input``;
+Modal.image = styled.div`
+    width: 100%;
+    height: 200px;
+    background-image: url(${({img}) => img});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #eee;
+`;
 
-Modal.button = styled.button``;
+Modal.content.inner = styled.div`
+    padding: 10px 30px 30px 30px;
+`;
+
 
 Modal.propTypes = {
     name: propTypes.string.isRequired,
     price: propTypes.number.isRequired,
     desc: propTypes.string.isRequired,
-    img: propTypes.arrayOf(string).isRequired,
+    img: propTypes.string.isRequired,
     stock: propTypes.number.isRequired,
     close: propTypes.func.isRequired,
     id: propTypes.number.isRequired,

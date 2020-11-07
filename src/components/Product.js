@@ -12,8 +12,8 @@ const Product = ({
   price, 
   showModal 
 }) => {
-
-  const mainImg = img[0];
+  
+  const mainImg = JSON.parse(img)[0];
 
   const shortDesc = (description) => {
     return `${description.slice(0, 70)}...`;
@@ -23,7 +23,7 @@ const Product = ({
     name, 
     price, 
     desc, 
-    img,
+    img: JSON.parse(img)[0],
     stock,
     id,
   }
@@ -106,8 +106,8 @@ Product.propTypes = {
   name: propTypes.string.isRequired,
   desc: propTypes.string.isRequired,
   stock: propTypes.number.isRequired,
-  img: propTypes.arrayOf(string).isRequired,
-  allergens: propTypes.arrayOf(string).isRequired,
+  img: propTypes.string.isRequired,
+  allergens: propTypes.string.isRequired,
   showModal: propTypes.func.isRequired,
 };
 

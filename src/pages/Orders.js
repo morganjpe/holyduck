@@ -18,7 +18,7 @@ const AuthProvider = ({children}) => {
             user => setState({...state, status: 'success', user: user}),
             error => setState({...state, status: 'error', user: null})
         );
-    }, []);
+    });
 
     return(
         <AuthContext.Provider value={state}>

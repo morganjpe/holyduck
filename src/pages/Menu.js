@@ -5,8 +5,9 @@ import Container from "../components/Container";
 import Header from "../components/Header";
 import ProductList from "../components/ProductList";
 import Modal from '../components/Modal';
-import BasketList from '../components/BasketList';
-import Checkout from "../components/Checkout";
+// import BasketList from '../components/BasketList';
+// import Checkout from "../components/Checkout";
+import Basket from '../components/Basket'
 
 // reducers 
 import {basketReducer} from '../state/basket';
@@ -35,8 +36,9 @@ function Menu() {
       <Header />
       <Container>
         <ProductList showModal={showModal} />
-        <BasketList setBasket={setBasket} basket={basket} />
-        {basket.length ? <Checkout basket={basket} /> : '' } 
+
+        <Basket setBasket={setBasket} basket={basket}/>
+
       </Container>
 
       { activeModal ? (
