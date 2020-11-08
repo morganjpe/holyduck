@@ -13,8 +13,6 @@ const Product = ({
   showModal 
 }) => {
   
-  const mainImg = JSON.parse(img)[0];
-
   const shortDesc = (description) => {
     return `${description.slice(0, 70)}...`;
   };
@@ -23,7 +21,7 @@ const Product = ({
     name, 
     price, 
     desc, 
-    img: JSON.parse(img)[0],
+    img,
     stock,
     id,
   }
@@ -31,7 +29,7 @@ const Product = ({
   return (
     <>
       <Product.container stock={stock} onClick={stock ? () => showModal(modalPayload) : null}>
-        <Product.image title={name} src={mainImg} />
+        <Product.image title={name} src={img} />
         <Product.desc>
           <span><h3>{name}</h3><p>&pound;{price.toFixed(2)}</p></span>
           <p>{shortDesc(desc)}</p>

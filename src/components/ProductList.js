@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
-import axios from 'axios';
 
 // mock data
 import { group } from "../mocks/api-mock";
@@ -38,26 +37,11 @@ const ProductListGroup = ({prodData, groupKey, showModal}) => {
 }
 
 
-const ProductList = ({showModal}) => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-
-   
-
-    if (!products.length) {
-
-      console.log(products);
-
-      axios.get('http://localhost:3001/menu_items')
-        .then(({data}) => setProducts(data)); 
-
-    }
-  }, [products]);
+const ProductList = ({products, showModal}) => {
 
   return (
     <ProductList.container>
-      <h3>Order Here</h3>
+      {/* <h3>Order Here</h3> */}
       <ProductList.list>
         {products.map((product) => {
           return (

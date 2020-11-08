@@ -37,7 +37,7 @@ const CheckoutModal = ({basket, showModal}) => {
                     if(data.stock - quantity >=0) {
                         return axios
                             .put(`http://localhost:3001/update_stock${id}`, {
-                                quantity: stock - quantity,
+                                stock: stock - quantity,
                             })
                     } 
                     return false
@@ -68,17 +68,20 @@ const CheckoutModal = ({basket, showModal}) => {
             <CheckoutModal.overlay onClick={() => showModal(false)} />
             
             <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
-                <h3>Your Address Details</h3>
-                <p>We are currently only delivering to TA1, TA2 postcodes</p>
+                <CheckoutModal.form.content>
+                    <h3>Your Address Details</h3>
+                    <p>We are currently only delivering to TA1, TA2 postcodes</p>
 
-                <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
+                    <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
 
-                <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
-                {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
+                    <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
+                    {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
 
 
-                <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
-                {errors.postcode && <span>Please enter a valid postcode</span>}
+                    <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
+                    {errors.postcode && <span>Please enter a valid postcode</span>}
+                </CheckoutModal.form.content>
+
                 <Button>Checkout Now</Button>
             </CheckoutModal.form>
 
@@ -87,11 +90,11 @@ const CheckoutModal = ({basket, showModal}) => {
 }
 
 CheckoutModal.container = styled.div`
-    ${tw`m-auto container flex fixed justify-center items-center`}
+    ${tw`flex fixed justify-center items-center`}
     top: 0;
     left: 0;
     height: 100vh;
-    width: 100vh;
+    width: 100vw;
 `;
 
 CheckoutModal.overlay = styled.div`
@@ -101,16 +104,34 @@ CheckoutModal.overlay = styled.div`
     width: 100vw;
     height: 100vw;
     background-color: rgba(0,0,0,.7);
+    cursor: pointer;
 `;
 
 CheckoutModal.form = styled.form`
+    ${tw`w-full md:w-1/3`}
     z-index: 50000;
     background-color: white;
+    overflow: hidden;
+    border-radius: 7px;
+
+    span {
+        color: red;
+        font-size: 12px;
+        padding: 10px;
+    }
+
     input {
+        margin-top: 10px;
+        padding: 15px;
+        border: 1px solid #eee;
         width: 100%;
         display: block;
     }
 `;
+
+CheckoutModal.form.content = styled.div`
+    padding: 30px;
+`;  
 
 
 const Checkout = ({basket}) => {

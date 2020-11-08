@@ -12,6 +12,7 @@ import {theme} from './theme';
 import Menu from './pages/Menu';
 import Orders from './pages/Orders';
 import Confirmation from './pages/Confirmation'
+import Management from './pages/Management';
 
 const App = () => {
   return(
@@ -23,6 +24,9 @@ const App = () => {
           </Route>
           <Route path="/confirmation">
             <Confirmation />
+          </Route>
+          <Route path="/management">
+            <Management />
           </Route>
           <Route path="/">
             <Menu />

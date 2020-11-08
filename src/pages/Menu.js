@@ -1,4 +1,5 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
+import axios from 'axios'
 
 // components
 import Container from "../components/Container";
@@ -16,6 +17,22 @@ function Menu() {
 
   // basket
   const [basket, setBasket] = useReducer(basketReducer, []);
+
+  // products 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+
+    if (!products.length) {
+
+      console.log(products);
+
+      axios.get('http://localhost:3001/menu_items')
+        .then(({data}) => setProducts(data)); 
+
+    }
+  }, [products]);
+
 
   // modal 
   const [activeModal, setActiveModal] = useState(false);
@@ -35,7 +52,7 @@ function Menu() {
     <>
       <Header />
       <Container>
-        <ProductList showModal={showModal} />
+        <ProductList products={products} showModal={showModal} />
 
         <Basket setBasket={setBasket} basket={basket}/>
 
