@@ -1,19 +1,44 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useLocation } from "react-router-dom";
 import tw, {styled} from 'twin.macro';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 const Confirmation = () => {
     
     const location = useLocation();
+    console.log(location);
+    const ref = location.state.ref;
+
+    useEffect(() => {
+
+        if(parseInt(window.localStorage.getItem('ORDER')) !== ref) {
+
+            axios.post('http://localhost:3001/orders', {
+                reference: ref,
+                order: JSON.stringify(location.state.products),
+                address: JSON.stringify(location.state.address),
+                status: 'processing'
+            })
+            .then(({data}) => {
+                if(data.ref === ref) {
+                    window.localStorage.setItem('ORDER', ref);
+                } 
+            })
+            .catch(err => err);
+
+        }
+
+    }, []);
 
     return(
         <Confirmation.container>
             <Confirmation.container.inner>
                 <h2>Order successful</h2>
+                <p>Reference: {ref}</p>
                 <h4>we are currently preparing your order</h4>
                 <ul className="order">
-                    {location.state.order.products.map(({name, price, quantity, id}) => {
+                    {location.state.products.map(({name, price, quantity, id}) => {
                         return (
                             <li key={id}>
                                 {name} - {quantity} - £{(price * quantity).toFixed(2)}
@@ -23,8 +48,8 @@ const Confirmation = () => {
                 </ul>
                 <h3>Delivering To</h3>
                 <ul>
-                    <li>{location.state.order.address.addressLine1}</li>
-                    <li>{location.state.order.address.postcode}</li>
+                    <li>{location.state.address.addressLine1}</li>
+                    <li>{location.state.address.postcode}</li>
                 </ul>
                 <Link to="/">
                     Order again?

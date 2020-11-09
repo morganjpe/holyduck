@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import tw, {styled} from 'twin.macro'
-import {findIndex, debounce, conforms} from 'lodash';
+import {findIndex, debounce} from 'lodash';
 
 
 

@@ -2,7 +2,8 @@ import React, {useEffect, useState, createContext} from 'react';
 import axios from 'axios';
 import tw,{styled, theme} from 'twin.macro';
 import propTypes from 'prop-types';
-// import socketIOClient from 'socket.io-client';
+
+
 
 const wait = time => new Promise((resolve) => setTimeout(resolve, time));
 const getUser = () => wait(1000).then(() => ({login: '1234'}));
@@ -68,17 +69,17 @@ AddressList.propTypes = {
     address: propTypes.string.isRequired,
 }
 
-const StatusInput = ({status, action, checked}) => {
+const StatusInput = ({status, action, checked, name}) => {
     return(
-        <StatusInput.group status={status}>
+        <StatusInput.group name={name}>
             <input 
                 checked={checked === status}
                 type="radio" 
-                name="status" 
+                name={name} 
                 id={status} 
                 value={status} 
                 onChange={action} />
-            <label htmlFor={status}>{status}</label>
+            <label id={name} htmlFor={status}>{status}</label>
         </StatusInput.group>
     )
 }
@@ -94,8 +95,8 @@ StatusInput.group = styled.div`
         padding: 10px 20px;
         cursor: pointer;
     }
-
-    input:checked ~ label {
+    ${({name}) => console.log(name)}
+    [name="${({name}) => name}"]:checked ~ label {
         color: white;
         border-radius: 7px;
         background: ${({theme}) => theme.colors.hd_red};
@@ -108,15 +109,17 @@ StatusInput.propTypes = {
 }
 
 const Orders = () => {
-    
+
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         if(!orders.length) {
             getAllOrders();
+        } else {
+            
         }
         console.log(orders);
-    })
+    }, []);
 
     const getAllOrders = () => {
         axios.get('http://localhost:3001/orders')
@@ -124,8 +127,9 @@ const Orders = () => {
             .catch(err => console.log(err))
     }
 
+
     // useEffect(() => {
-    //     const socket = socketIOClient('http://localhost:3001');
+    //     
     //     console.log(socket);
     //     socket.on('order_views', data => {
     //         const date = new Date();
@@ -139,7 +143,7 @@ const Orders = () => {
     // });
 
     const updateOrder = (e, ref) => {
-
+    
         const value = e.target.value;
         console.log(ref);
 
@@ -149,7 +153,6 @@ const Orders = () => {
         .then(({data}) => {
             if(data.updated === ref) {
                 console.log(value);
-                getAllOrders();
             }
         })
         .catch(err => console.log(err));
@@ -159,7 +162,11 @@ const Orders = () => {
         axios.delete(`http://localhost:3001/orders${ref}`)
             .then(({data}) => {
                 if(data.deleted === ref) {
-                    getAllOrders();
+                    
+                    orders.forEach((order, index) => {
+
+                    })
+
                 }
             })
         .catch(err => console.log(err));
@@ -180,10 +187,10 @@ const Orders = () => {
                                 <AddressList address={order.address} />
                                 <br />
                                 <Orders.status>
-                                    <StatusInput checked={order.status} status="processing" action={(e) => updateOrder(e, order.reference)} />
-                                    <StatusInput checked={order.status} status="confirmed" action={(e) => updateOrder(e, order.reference)} />
-                                    <StatusInput checked={order.status} status="delivering" action={(e) => updateOrder(e, order.reference)} />
-                                    <StatusInput checked={order.status} status="complete" action={() => deleteOrder(order.reference)} />
+                                    <StatusInput name={order.reference} checked={order.status} status="processing" action={(e) => updateOrder(e, order.reference)} />
+                                    <StatusInput name={order.reference} checked={order.status} status="confirmed" action={(e) => updateOrder(e, order.reference)} />
+                                    <StatusInput name={order.reference} checked={order.status} status="delivering" action={(e) => updateOrder(e, order.reference)} />
+                                    <StatusInput name={order.reference} checked={order.status} status="complete" action={() => deleteOrder(order.reference)} />
                                 </Orders.status>
                             </Orders.order>
                         )

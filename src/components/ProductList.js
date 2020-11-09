@@ -3,45 +3,45 @@ import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
 
 // mock data
-import { group } from "../mocks/api-mock";
+// import { group } from "../mocks/api-mock";
 
 // components
 import Product from "./Product";
 
 
-const ProductListGroup = ({prodData, groupKey, showModal}) => {
+// const ProductListGroup = ({prodData, groupKey, showModal}) => {
 
-  const [groupData, setGroupData] = useState({});
+//   const [groupData, setGroupData] = useState({});
 
-  useEffect(() => {
+//   useEffect(() => {
 
-    if(!Object.keys(groupData)) {
-      setTimeout(() => {
-        setGroupData(group['groupKey']);
-      }, 500) // mock timeout
-    }
+//     if(!Object.keys(groupData)) {
+//       setTimeout(() => {
+//         setGroupData(group['groupKey']);
+//       }, 500) // mock timeout
+//     }
 
-  }, [groupData]);
+//   }, [groupData]);
 
-  if(!Object.keys(groupData)) {
+//   if(!Object.keys(groupData)) {
 
-  }
+//   }
 
-  return(
-    <div>
-      loading ... 
-    </div>
-  )
+//   return(
+//     <div>
+//       loading ... 
+//     </div>
+//   )
 
 
-}
+// }
 
 
 const ProductList = ({products, showModal}) => {
 
   return (
     <ProductList.container>
-      {/* <h3>Order Here</h3> */}
+      <h3>Order Here</h3>
       <ProductList.list>
         {products.map((product) => {
           return (

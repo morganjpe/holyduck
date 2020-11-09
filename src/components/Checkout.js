@@ -47,7 +47,7 @@ const CheckoutModal = ({basket, showModal}) => {
                     if(!res) {
                         throw new Error('cancel');
                     } else {
-                        history.push('/confirmation', {order});
+                        history.push('/confirmation', {...order, ref: Date.now()});
                         console.log(res.data);
                         console.log(order);
                     }
