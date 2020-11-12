@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import ReactDOM from 'react-dom';
 import tw,{styled} from 'twin.macro';
 import {useForm} from 'react-hook-form';
 import {isValid} from 'postcode';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import scriptLoader from 'react-async-script-loader';
 
 // components 
 import {Button} from './Button';
@@ -12,6 +14,31 @@ const CheckoutModal = ({basket, showModal}) => {
 
     const {register, handleSubmit, errors } = useForm();
     const history = useHistory();
+    const [orderDetails, setOrderDetails] = useState({});
+
+    const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
+
+    const createOrder = (data, actions) => {
+
+        return actions.order.create({
+            purchase_units: basket.map(({name, price, quantity}) => ({
+                description: name,
+                amount: {
+                    currency_code: "GBP",
+                    value: (price * quantity)
+                }
+            }),
+
+        )})
+    };
+    
+    const onApprove = (data, actions) => {
+        const orderID = data.orderID;
+        history.push('/confirmation', {...orderDetails, ref: orderID});
+        return actions.order.capture();
+    };
+
+
 
     const isValidPostcode = (postcode) => {
         
@@ -24,67 +51,41 @@ const CheckoutModal = ({basket, showModal}) => {
     }
 
     const checkoutButton = (data) => {
+        console.log("????");
 
-        const order = {
+        setOrderDetails({
             products: basket,
             address: data
-        }
-
-        basket.forEach(({id, quantity, stock}) => {
-            // check that the stock is okay
-            axios.get(`http://localhost:3001/menu_items${id}`)
-                .then(({data}) => {
-                    if(data.stock - quantity >=0) {
-                        return axios
-                            .put(`http://localhost:3001/update_stock${id}`, {
-                                stock: stock - quantity,
-                            })
-                    } 
-                    return false
-                })
-                .then(res => {
-                    console.log(res);
-                    if(!res) {
-                        throw new Error('cancel');
-                    } else {
-                        history.push('/confirmation', {...order, ref: Date.now()});
-                        console.log(res.data);
-                        console.log(order);
-                    }
-                })
-                .catch(err => err === 'cancel' ? alert('no stock left') : '');
-
-        })
-
-      
-
-    //    const socket = socketIOClient('http://localhost:3001')
-    //    console.log(socket);
-    //    socket.emit('order', JSON.stringify(basket))
+        }) 
     }
+
+
 
     return(
         <CheckoutModal.container>
             <CheckoutModal.overlay onClick={() => showModal(false)} />
-            
-            <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
-                <CheckoutModal.form.content>
-                    <h3>Your Address Details</h3>
-                    <p>We are currently only delivering to TA1, TA2 postcodes</p>
+            { !Object.keys(orderDetails).length ? (
+                <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
+                    <CheckoutModal.form.content>
+                        <h3>Your Address Details</h3>
+                        <p>We are currently only delivering to TA1, TA2 postcodes</p>
 
-                    <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
+                        <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
 
-                    <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
-                    {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
+                        <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
+                        {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
 
 
-                    <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
-                    {errors.postcode && <span>Please enter a valid postcode</span>}
-                </CheckoutModal.form.content>
-
-                <Button>Checkout Now</Button>
-            </CheckoutModal.form>
-
+                        <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
+                        {errors.postcode && <span>Please enter a valid postcode</span>}
+                    </CheckoutModal.form.content>
+                    <Button>Click here to pay</Button>
+                </CheckoutModal.form>
+            ) : (
+                <PayPalButton 
+                createOrder={(data, actions) => createOrder(data, actions)}
+                onApprove={(data, actions) => onApprove(data, actions)} />
+            )}
         </CheckoutModal.container>
     );
 }
@@ -195,4 +196,9 @@ Checkout.grid = styled.ul`
     }
 `;
 
-export default Checkout;
+
+//sb-9zpwc3734285@business.example.com
+
+export default scriptLoader(
+    'https://www.paypal.com/sdk/js?currency=GBP&client-id=Ab6oJnSdECyPV05wRy68D3-5hFcP-lYaNPQeY_JsSrvm0k53x5TXx_9-9BMAWFFAj5ZPoiGh2MkZHDpc'
+)(Checkout)

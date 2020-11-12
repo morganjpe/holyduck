@@ -1,54 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
-
-// mock data
-// import { group } from "../mocks/api-mock";
 
 // components
 import Product from "./Product";
 
+const groupMenuItems = (products, prodGroup) => products.filter(({group}) => group === prodGroup) 
 
-// const ProductListGroup = ({prodData, groupKey, showModal}) => {
+const ProductGroup = ({name, products, showModal}) => {
+  return(
+    <div>
+      <h4>{name}</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, soluta?</p>
+      {products.map(product => {
+        return <Product showModal={showModal} key={product.id} {...product} />
+      })}
+    </div>
+  )
+}
 
-//   const [groupData, setGroupData] = useState({});
-
-//   useEffect(() => {
-
-//     if(!Object.keys(groupData)) {
-//       setTimeout(() => {
-//         setGroupData(group['groupKey']);
-//       }, 500) // mock timeout
-//     }
-
-//   }, [groupData]);
-
-//   if(!Object.keys(groupData)) {
-
-//   }
-
-//   return(
-//     <div>
-//       loading ... 
-//     </div>
-//   )
-
-
-// }
+ProductGroup.propTypes = {
+  name: propTypes.string.isRequired,
+  products: propTypes.array.isRequired,
+  showModal: propTypes.func.isRequired,
+}
 
 
 const ProductList = ({products, showModal}) => {
 
+  const burgers = groupMenuItems(products, 'Burgers');
+  const wraps = groupMenuItems(products, 'Wraps');
+
   return (
     <ProductList.container>
-      <h3>Order Here</h3>
-      <ProductList.list>
-        {products.map((product) => {
-          return (
-            <Product showModal={showModal} key={product.id} {...product} />
-          );
-        })}
-      </ProductList.list>
+      <h2>Order Here</h2>
+      <ProductGroup showModal={showModal} name="Burgers" products={burgers}  />
+      <ProductGroup showModal={showModal} name="Wraps" products={wraps}  />
     </ProductList.container>
   );
 };
@@ -65,14 +52,13 @@ ProductList.container = styled.section`
 `;
 
 ProductList.list = styled.ul`
-
   padding: 0;
   margin: 0;
-
 `;
 
 ProductList.propTypes = {
   showModal: propTypes.func.isRequired,
+  products: propTypes.array.isRequired,
 };
 
 export default ProductList;

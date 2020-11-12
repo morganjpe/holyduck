@@ -1,45 +1,13 @@
-import React, {useEffect, useState, createContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import tw,{styled} from 'twin.macro';
 import propTypes from 'prop-types';
 import io from 'socket.io-client';
 
 
-
-
-
-const wait = time => new Promise((resolve) => setTimeout(resolve, time));
-const getUser = () => wait(1000).then(() => ({login: '1234'}));
-const AuthContext = createContext();
-const AuthProvider = ({children}) => {
-    const [state, setState] = useState({
-        status: 'pending',
-        error: null,
-        user: null,
-    });
-    useEffect(() => {
-        getUser().then(() => {
-
-        
-
-            // user => setState({...state, status: 'success', user: user});
-            // error => setState({...state, status: 'error', user: null})
-        });
-    });
-
-    return(
-        <AuthContext.Provider value={state}>
-            {state.status === 'pending' ? (
-                'Loading... '
-            ) : state.error ? (
-                <div><pre>{state.error}</pre></div>
-            ) : (
-                children
-            )}
-        </AuthContext.Provider>
-    )
-}
-
+/* 
+ * OrderList Component
+ */
 const OrderList = ({orders, subKey}) => {
     return JSON.parse(orders)
         .map(({name, price, quantity, id}) => {
@@ -56,6 +24,9 @@ OrderList.propTypes = {
     subKey: propTypes.string.isRequired,
 }
 
+/* 
+ * AddressList Component
+ */
 const AddressList = ({address}) => {
     const {
         addressLine1,
@@ -113,19 +84,13 @@ const StatusInput = ({reference, status}) => {
 
 
 StatusInput.propTypes = {
-    // status: propTypes.string.isRequired,
-    // action: propTypes.func.isRequired,
+    status: propTypes.string.isRequired,
+    reference: propTypes.string.isRequired,
 }
-
 
 StatusInput.button = styled.button`
     background-color: ${ ({id, status}) => id === status ? 'green' : '' };
 `;
-
-
-
-
-
 
 
 const Orders = () => {
@@ -145,7 +110,6 @@ const Orders = () => {
     
         getAllOrders();
 
-
         const socket = io('http://localhost:3001', {
             transports: ['websocket']
         })
@@ -158,29 +122,7 @@ const Orders = () => {
             }
         })
 
-        console.log(orders, "hefwefwfwef");
     }, [])
-
-    
-
-
-
-
-    // const deleteOrder = (ref) => {
-    //     axios.delete(`http://localhost:3001/orders${ref}`)
-    //         .then(({data}) => {
-    //             if(data.deleted === ref) {
-                    
-    //                 orders.forEach((order, index) => {
-
-    //                 })
-
-    //             }
-    //         })
-    //     .catch(err => console.log(err));
-    // }
-
-    
 
     return(
         <>
@@ -227,28 +169,3 @@ Orders.status = styled.div`
 
 
 export default Orders;
-
-
-
-// <Orders.list>
-// {orders.map(order => {
-//     console.log(order);
-//     return(
-//         <Orders.order key={order.reference}>
-//             <h4>Order reference - {order.reference}</h4>
-//             <OrderList 
-//                 orders={order.order} 
-//                 subKey={order.reference} />
-//             <br />
-//             <AddressList address={order.address} />
-//             <br />
-//             <Orders.status>
-//                 {/* <StatusInput name={order.reference} checked={order.status} status="processing" action={(e) => updateOrder(e, order.reference)} />
-//                 <StatusInput name={order.reference} checked={order.status} status="confirmed" action={(e) => updateOrder(e, order.reference)} />
-//                 <StatusInput name={order.reference} checked={order.status} status="delivering" action={(e) => updateOrder(e, order.reference)} /> */}
-//                 {/* <StatusInput name={order.reference} checked={order.status} status="complete" action={() => deleteOrder(order.reference)} /> */}
-//             </Orders.status>
-//         </Orders.order>
-//     )
-// })}
-// </Orders.list>
