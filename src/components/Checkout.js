@@ -64,28 +64,30 @@ const CheckoutModal = ({basket, showModal}) => {
     return(
         <CheckoutModal.container>
             <CheckoutModal.overlay onClick={() => showModal(false)} />
-            { !Object.keys(orderDetails).length ? (
-                <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
-                    <CheckoutModal.form.content>
-                        <h3>Your Address Details</h3>
-                        <p>We are currently only delivering to TA1, TA2 postcodes</p>
+            <CheckoutModal.group>
+                { !Object.keys(orderDetails).length ? (
+                    <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
+                        <CheckoutModal.form.content>
+                            <h3>Your Address Details</h3>
+                            <p>We are currently only delivering to TA1, TA2 postcodes</p>
 
-                        <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
+                            <input ref={register({required: true})} type="text" id="addressLine1" name='addressLine1' placeholder="1st line of address" />
 
-                        <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
-                        {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
+                            <input ref={register({required: true, pattern: /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/i})} type="number" id="phoneNumber" name='phoneNumber' placeholder="Mobile Number" />
+                            {errors.phoneNumber && <span>Please enter a valid phone number, We may need to call if we get lost!</span>}
 
 
-                        <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
-                        {errors.postcode && <span>Please enter a valid postcode</span>}
-                    </CheckoutModal.form.content>
-                    <Button>Click here to pay</Button>
-                </CheckoutModal.form>
-            ) : (
-                <PayPalButton 
-                createOrder={(data, actions) => createOrder(data, actions)}
-                onApprove={(data, actions) => onApprove(data, actions)} />
-            )}
+                            <input ref={register({required: true, validate: value => isValidPostcode(value)})} type="text" id="postcode" name='postcode' placeholder="TA..." />
+                            {errors.postcode && <span>Please enter a valid postcode</span>}
+                        </CheckoutModal.form.content>
+                        <Button>Click here to pay</Button>
+                    </CheckoutModal.form>
+                ) : (
+                    <PayPalButton 
+                    createOrder={(data, actions) => createOrder(data, actions)}
+                    onApprove={(data, actions) => onApprove(data, actions)} />
+                )}
+            </CheckoutModal.group>
         </CheckoutModal.container>
     );
 }
@@ -108,12 +110,19 @@ CheckoutModal.overlay = styled.div`
     cursor: pointer;
 `;
 
-CheckoutModal.form = styled.form`
+CheckoutModal.group = styled.div`
     ${tw`w-full md:w-1/3`}
     z-index: 50000;
     background-color: white;
     overflow: hidden;
     border-radius: 7px;
+
+    iframe {
+        padding: 20px;
+    }
+`;
+
+CheckoutModal.form = styled.form`
 
     span {
         color: red;
@@ -198,6 +207,7 @@ Checkout.grid = styled.ul`
 
 
 //sb-9zpwc3734285@business.example.com
+//Zq>o$>1z
 
 export default scriptLoader(
     'https://www.paypal.com/sdk/js?currency=GBP&client-id=Ab6oJnSdECyPV05wRy68D3-5hFcP-lYaNPQeY_JsSrvm0k53x5TXx_9-9BMAWFFAj5ZPoiGh2MkZHDpc'

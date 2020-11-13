@@ -1,13 +1,13 @@
 import React, { useState, useReducer } from "react";
 import axios from 'axios'
-import { useQuery, QueryCache, ReactQueryCacheProvider } from 'react-query'
+import { useQuery, QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 // components
 import Container from "../components/Container";
 import Header from "../components/Header";
 import ProductList from "../components/ProductList";
 import Modal from '../components/Modal';
-import Basket from '../components/Basket'
+import Basket from '../components/Basket';
 
 // reducers 
 import {basketReducer} from '../state/basket';
@@ -27,6 +27,7 @@ function Menu() {
   const showModal = function (data) {
     setActiveModal(true); // display modal
     setModalData(data);
+    // bomb()
   }
 
   const closeModal = function () {
@@ -41,11 +42,13 @@ function Menu() {
     .then(({data}) => data)
   )
 
+
+
   return (
     <>
       <ReactQueryCacheProvider queryCache={cache}>
         <Header />
-       
+  
           {isLoading ? 'loading ...' : error ? 'there has been an error' : (
               <Container>
                 <ProductList products={data} showModal={showModal} />
@@ -53,14 +56,13 @@ function Menu() {
               </Container>
           )}
 
-        { activeModal ? (
-          <Modal 
-            basket={basket}
-            setBasket={setBasket}
-            close={closeModal} 
-            {...modalData} />
-        ) : '' }
-
+          { activeModal ? (
+            <Modal 
+              basket={basket}
+              setBasket={setBasket}
+              close={closeModal} 
+              {...modalData} />
+          ) : '' }
       </ReactQueryCacheProvider>
     </>
     

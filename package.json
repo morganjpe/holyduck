@@ -18,6 +18,7 @@
     "react": "^17.0.1",
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^17.0.1",
+    "react-error-boundary": "^3.0.2",
     "react-hook-form": "^6.10.1",
     "react-lines-ellipsis": "^0.14.1",
     "react-query": "^2.26.2",

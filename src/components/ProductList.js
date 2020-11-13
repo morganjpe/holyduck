@@ -5,11 +5,20 @@ import tw, { styled } from "twin.macro";
 // components
 import Product from "./Product";
 
+const keys = {
+  BURGERS: 'Burgers',
+  WRAPS: 'Wraps',
+  SIDES: 'Sides',
+  SHAKES: 'Shakes',
+  SAUCES: 'Sauces',
+  DRINKS: 'Drinks',
+}
+
 const groupMenuItems = (products, prodGroup) => products.filter(({group}) => group === prodGroup) 
 
 const ProductGroup = ({name, products, showModal}) => {
   return(
-    <div>
+    <div id={`${name.toLowerCase()}_link`}>
       <h4>{name}</h4>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, soluta?</p>
       {products.map(product => {
@@ -26,14 +35,63 @@ ProductGroup.propTypes = {
 }
 
 
+const ProductNav = () => {
+
+  console.log(Object.keys(keys));
+
+  return(
+    <ProductNav.nav>
+      <ProductNav.ul>
+        {Object.keys(keys).map(key => {
+          // return key;
+          return(
+            <ProductNav.item key={`${keys[key].toLowerCase()}-key`}>
+              <a href={`#${keys[key].toLowerCase()}_link`}>
+                {keys[key]}
+              </a>          
+            </ProductNav.item>
+          )
+        })}
+      </ProductNav.ul>
+    </ProductNav.nav>
+  )
+}
+
+ProductNav.nav = styled.nav`
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+`;
+
+ProductNav.ul = styled.ul`
+  ${tw`flex`}
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-x: auto;
+    overflow-y: hidden;
+`;
+
+ProductNav.item = styled.li`
+  padding: 20px 40px 20px 0;
+
+  a {
+    text-decoration: none;
+    color: ${({theme}) => theme.colors.hd_red};
+    :hover {
+      opacity: .7;
+    }
+  }
+`;
+
 const ProductList = ({products, showModal}) => {
 
-  const burgers = groupMenuItems(products, 'Burgers');
-  const wraps = groupMenuItems(products, 'Wraps');
+  const burgers = groupMenuItems(products, keys.BURGERS);
+  const wraps = groupMenuItems(products, keys.WRAPS);
 
   return (
     <ProductList.container>
       <h2>Order Here</h2>
+      <ProductNav />
       <ProductGroup showModal={showModal} name="Burgers" products={burgers}  />
       <ProductGroup showModal={showModal} name="Wraps" products={wraps}  />
     </ProductList.container>
