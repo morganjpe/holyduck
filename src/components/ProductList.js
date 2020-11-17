@@ -60,6 +60,10 @@ const ProductNav = () => {
 ProductNav.nav = styled.nav`
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1000;
 `;
 
 ProductNav.ul = styled.ul`
@@ -103,7 +107,7 @@ ProductList.container = styled.section`
   margin-top: -60px;
   ${tw`w-full md:w-2/3`}
   border: 1px solid #eee;
-  min-height: 100vh;
+  min-height: 150vh;
   background-color: white;
   padding: 0px 15px;
   border-radius: 6px;

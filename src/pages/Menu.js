@@ -42,13 +42,10 @@ function Menu() {
     .then(({data}) => data)
   )
 
-
-
   return (
     <>
       <ReactQueryCacheProvider queryCache={cache}>
         <Header />
-  
           {isLoading ? 'loading ...' : error ? 'there has been an error' : (
               <Container>
                 <ProductList products={data} showModal={showModal} />

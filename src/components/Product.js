@@ -60,6 +60,7 @@ Product.image = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 5px;
+  background-color: #eee;
 `;
 
 Product.desc = styled.div`

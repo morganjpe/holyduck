@@ -36,6 +36,8 @@ Basket.container.inner = styled.div`
     border: 1px solid #eee;
     border-radius: 7px;
     padding: 15px;
+    position: sticky;
+    top: 20px;
 `;
 
 Basket.top = styled.div`

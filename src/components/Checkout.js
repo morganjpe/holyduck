@@ -178,7 +178,7 @@ const Checkout = ({basket}) => {
                     </li>      
                 
             </Checkout.grid>
-            <Button disabled={!basket.length} onClick={checkout}>Checkout Now</Button>
+            <Button style={{borderRadius: '7px'}} disabled={!basket.length} onClick={checkout}>Checkout Now</Button>
         </Checkout.container>
         {modal ? <CheckoutModal basket={basket} showModal={showModal} /> : ''}
     </>
