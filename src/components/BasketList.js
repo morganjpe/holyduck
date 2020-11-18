@@ -81,6 +81,10 @@ BasketItem.propTypes = {
   name: propTypes.string.isRequired,
   quantity: propTypes.number.isRequired,
   price: propTypes.number.isRequired,
+  //   stock: propTypes.number.isRequired,
+  //   index: propTypes.number.isRequired,
+  //   setBasket: propTypes.func.isRequired,
+  //   basket: propTypes.array.isRequired,
 };
 
 const BasketList = ({ basket, setBasket }) => {

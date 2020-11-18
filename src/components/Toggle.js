@@ -2,7 +2,7 @@ import React from "react";
 import tw, { styled } from "twin.macro";
 import propTypes from "prop-types";
 
-const Toggle = ({ quantity, quantityReducer, max }) => {
+const Toggle = ({ quantity, quantityReducer }) => {
   return (
     <Toggle.container>
       <Toggle.button onClick={() => quantityReducer("DECREMENT")}>
@@ -29,6 +29,12 @@ Toggle.button = styled.button`
   background-color: white;
   color: ${({ theme }) => theme.colors.hd_red};
   font-weight: 700;
+  cursor: pointer;
+`;
+
+Toggle.value = styled.span`
+  /* border: none;
+    width:  */
 `;
 
 Toggle.propTypes = {
