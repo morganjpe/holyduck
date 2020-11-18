@@ -29,7 +29,7 @@ const App = () => {
       const decodedToken = jwt_decode(token);
       if (Date.now() < decodedToken.exp * 1000) {
         axios
-          .get("http://localhost:3001/authorise", {
+          .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {
             headers: {
               token,
             },

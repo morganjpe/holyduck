@@ -44,9 +44,17 @@ const StatusInput = ({ reference, status }) => {
 
   const updateOrder = (value, ref) => {
     axios
-      .put(`http://localhost:3001/orders${reference}`, {
-        status: value,
-      })
+      .put(
+        `https://holy-duck-server-42v9n.ondigitalocean.app/orders${reference}`,
+        {
+          status: value,
+        },
+        {
+          headers: {
+            token: window.localStorage.getItem("token"),
+          },
+        }
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -100,22 +108,34 @@ StatusInput.button = styled.button`
   background-color: ${({ id, status }) => (id === status ? "green" : "")};
 `;
 
-const Orders = ({ authorised }) => {
+const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   const getAllOrders = () => {
     axios
-      .get("http://localhost:3001/orders")
+      .get("https://holy-duck-server-42v9n.ondigitalocean.app/orders", {
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      })
       .then(({ data }) => {
         setOrders(data);
       })
       .catch((err) => console.log(err));
   };
 
+  const deleteOrders = () => {
+    axios.delete("https://holy-duck-server-42v9n.ondigitalocean.app/orders", {
+      headers: {
+        token: window.localStorage.getItem("token"),
+      },
+    });
+  };
+
   useEffect(() => {
     getAllOrders();
 
-    const socket = io("http://localhost:3001", {
+    const socket = io("https://holy-duck-server-42v9n.ondigitalocean.app/", {
       transports: ["websocket"],
     });
 
@@ -130,8 +150,10 @@ const Orders = ({ authorised }) => {
   return (
     <>
       <Orders.list>
-        {orders.length
-          ? orders.map(({ order, reference, address, status }) => {
+        {orders.length ? (
+          <>
+            <button onClick={deleteOrders}>Delete</button>
+            {orders.map(({ order, reference, address, status }) => {
               return (
                 <Orders.order key={`${reference}_reference`}>
                   <h4>Order reference - {reference}</h4>
@@ -144,8 +166,11 @@ const Orders = ({ authorised }) => {
                   </Orders.status>
                 </Orders.order>
               );
-            })
-          : "no orders currently"}
+            })}
+          </>
+        ) : (
+          "no orders currently"
+        )}
       </Orders.list>
     </>
   );

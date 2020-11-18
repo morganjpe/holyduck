@@ -6,7 +6,7 @@ import tw, { styled } from "twin.macro";
 import Product from "./Product";
 
 const keys = {
-  BURGERS: "Burgers",
+  BURGERS: "Burger",
   WRAPS: "Wraps",
   SIDES: "Sides",
   SHAKES: "Shakes",
@@ -39,8 +39,6 @@ ProductGroup.propTypes = {
 };
 
 const ProductNav = () => {
-  console.log(Object.keys(keys));
-
   return (
     <ProductNav.nav>
       <ProductNav.ul>
@@ -90,6 +88,8 @@ ProductNav.item = styled.li`
 const ProductList = ({ products, showModal }) => {
   const burgers = groupMenuItems(products, keys.BURGERS);
   const wraps = groupMenuItems(products, keys.WRAPS);
+
+  console.log(products);
 
   return (
     <ProductList.container>

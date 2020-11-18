@@ -35,7 +35,7 @@ const Product = ({
         <Product.desc>
           <span>
             <h3>{name}</h3>
-            <p>&pound;{price.toFixed(2)}</p>
+            <p>&pound;{price}</p>
           </span>
           <p>{shortDesc(desc)}</p>
         </Product.desc>

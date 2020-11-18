@@ -11,7 +11,10 @@ const Login = () => {
   const [err, setErr] = useState(false);
 
   useEffect(() => {
-    if (window.localStorage.getItem("token").length) {
+    if (
+      window.localStorage.getItem("token") &&
+      window.localStorage.getItem("token").length
+    ) {
       setState(true);
     }
   }, []);
@@ -21,7 +24,7 @@ const Login = () => {
     const { loginEmail, loginPassword } = e.target.elements;
 
     axios
-      .post("http://localhost:3001/authenticate", {
+      .post("https://holy-duck-server-42v9n.ondigitalocean.app/authenticate", {
         email: loginEmail.value,
         password: loginPassword.value,
       })

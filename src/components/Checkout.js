@@ -8,11 +8,21 @@ import scriptLoader from "react-async-script-loader";
 
 // components
 import { Button } from "./Button";
+import Slots from "./Slots";
 
 const CheckoutModal = ({ basket, showModal }) => {
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
-  const [orderDetails, setOrderDetails] = useState({});
+
+  const [orderDetails, setOrderDetails] = useState({
+    products: basket,
+    address: {},
+    slot: {},
+  });
+
+  console.log(orderDetails);
+
+  const [checkoutStep, setCheckoutStep] = useState(1);
 
   const PayPalButton = window.paypal.Buttons.driver("react", {
     React,
@@ -49,21 +59,27 @@ const CheckoutModal = ({ basket, showModal }) => {
     return "false";
   };
 
-  const checkoutButton = (data) => {
-    console.log("????");
+  const confirmAddress = (data) => {
+    setOrderDetails({ ...orderDetails, address: data });
+    setCheckoutStep(2);
+  };
 
-    setOrderDetails({
-      products: basket,
-      address: data,
-    });
+  const confirmSlot = (slot) => {
+    // slot {
+    //   time,
+    //   day,
+    //   date
+    // }
+    setOrderDetails({ ...orderDetails, slot });
+    setCheckoutStep(3);
   };
 
   return (
     <CheckoutModal.container>
       <CheckoutModal.overlay onClick={() => showModal(false)} />
       <CheckoutModal.group>
-        {!Object.keys(orderDetails).length ? (
-          <CheckoutModal.form onSubmit={handleSubmit(checkoutButton)}>
+        {checkoutStep === 1 ? (
+          <CheckoutModal.form onSubmit={handleSubmit(confirmAddress)}>
             <CheckoutModal.form.content>
               <h3>Your Address Details</h3>
               <p>We are currently only delivering to TA1, TA2 postcodes</p>
@@ -105,8 +121,10 @@ const CheckoutModal = ({ basket, showModal }) => {
               />
               {errors.postcode && <span>Please enter a valid postcode</span>}
             </CheckoutModal.form.content>
-            <Button>Click here to pay</Button>
+            <Button>Book my delivery slot</Button>
           </CheckoutModal.form>
+        ) : checkoutStep === 2 ? (
+          <Slots confirmSlot={confirmSlot} />
         ) : (
           <PayPalButton
             createOrder={(data, actions) => createOrder(data, actions)}
