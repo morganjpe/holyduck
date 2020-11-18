@@ -4,9 +4,6 @@ export const createBasketItem = (state, item) => {
 
 export const updateBasketItem = (state, index, quantity) => {
   const stateCopy = [...state];
-
-  console.log(state, stateCopy[index], index);
-
   stateCopy[index].quantity = quantity;
   return stateCopy;
 };

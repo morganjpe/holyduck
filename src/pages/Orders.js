@@ -100,7 +100,7 @@ StatusInput.button = styled.button`
   background-color: ${({ id, status }) => (id === status ? "green" : "")};
 `;
 
-const Orders = () => {
+const Orders = ({ authorised }) => {
   const [orders, setOrders] = useState([]);
 
   const getAllOrders = () => {
@@ -108,7 +108,6 @@ const Orders = () => {
       .get("http://localhost:3001/orders")
       .then(({ data }) => {
         setOrders(data);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   };
