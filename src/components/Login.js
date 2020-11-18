@@ -25,6 +25,7 @@ const Login = () => {
 
     axios
       .post("https://holy-duck-server-42v9n.ondigitalocean.app/authenticate", {
+        crossDomain: true,
         email: loginEmail.value,
         password: loginPassword.value,
       })

@@ -38,7 +38,9 @@ function Menu() {
   // react query data fetching
   const { isLoading, error, data } = useQuery("products", () =>
     axios
-      .get("https://holy-duck-server-42v9n.ondigitalocean.app/menu_items")
+      .get("https://holy-duck-server-42v9n.ondigitalocean.app/menu_items", {
+        crossDomain: true,
+      })
       .then(({ data }) => data)
   );
 

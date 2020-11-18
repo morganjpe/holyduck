@@ -30,8 +30,10 @@ const App = () => {
       if (Date.now() < decodedToken.exp * 1000) {
         axios
           .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {
+            crossDomain: true,
             headers: {
               token,
+              Confirmation,
             },
           })
           .then((res) => {
