@@ -16,17 +16,25 @@ function Menu() {
   const [basket, setBasket] = useReducer(basketReducer, []);
 
   // modal
-  const [activeModal, setActiveModal] = useState(false);
-  const [modalData, setModalData] = useState({});
+  const [modal, setModal] = useState({
+    content: {},
+    open: false,
+  });
 
   const showModal = function (data) {
-    setActiveModal(true); // display modal
-    setModalData(data);
+    document.body.style.overflow = "hidden";
+    setModal({
+      open: true,
+      content: data,
+    });
   };
 
   const closeModal = function () {
-    setActiveModal(false); // display modal
-    setModalData({});
+    document.body.style.overflow = "initial";
+    setModal({
+      open: false,
+      content: {},
+    });
   };
 
   return (
@@ -36,12 +44,12 @@ function Menu() {
         <ProductList showModal={showModal} />
         <Basket setBasket={setBasket} basket={basket} />
       </Container>
-      {activeModal ? (
+      {modal.open ? (
         <Modal
           basket={basket}
           setBasket={setBasket}
           close={closeModal}
-          {...modalData}
+          {...modal.content}
         />
       ) : (
         ""

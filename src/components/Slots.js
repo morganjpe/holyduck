@@ -1,8 +1,12 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
+import { findIndex } from "lodash";
 import axios from "axios";
 
-const Slots = ({ confirmSlot }) => {
+const Slot = ({ day, time, quantity }) => {
+  // each card should have a date associated with it
+  // if day of the week is past
+
   const days = [
     "Sunday",
     "Monday",
@@ -13,6 +17,33 @@ const Slots = ({ confirmSlot }) => {
     "Saturday",
   ];
 
+  const currentDate = new Date();
+
+  return (
+    <Slot.container disabled={!quantity}>
+      <h3>{time}</h3>
+    </Slot.container>
+  );
+};
+
+Slot.container = styled.button`
+  ${tw`flex items-center justify-center`}
+  width: 150px;
+  height: 150px;
+  cursor: ${({ disabled }) => (disabled ? "warning" : "pointer")};
+  background: ${({ theme }) => theme.colors.hd_red};
+  border-radius: 7px;
+  border: none;
+
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+
+  h3 {
+    color: white;
+    text-align: center;
+  }
+`;
+
+const Slots = ({ confirmSlot }) => {
   const mockSlots = {
     Wednesday: {
       "18:00": 0,
@@ -31,13 +62,6 @@ const Slots = ({ confirmSlot }) => {
     },
   };
 
-  const createSlot = (day, time) => {
-    confirmSlot({
-      day,
-      time,
-    });
-  };
-
   return (
     <Slots.container>
       {Object.keys(mockSlots).map((key) => {
@@ -46,14 +70,11 @@ const Slots = ({ confirmSlot }) => {
             <h3>{key}</h3>
             {Object.keys(mockSlots[key]).map((timeKey) => {
               return (
-                <Slots.time
-                  onClick={() => createSlot()}
-                  disabled={mockSlots[key][timeKey] === 0 ? true : false}
-                  role="button"
-                  key={`${key}_${timeKey}`}
-                >
-                  <h3>{timeKey}</h3>
-                </Slots.time>
+                <Slot
+                  day={key}
+                  time={timeKey}
+                  quantity={mockSlots[key][timeKey]}
+                />
               );
             })}
           </Slots.date>
@@ -71,23 +92,6 @@ Slots.date = styled.div`
   ${tw`flex flex-wrap justify-between`}
   h3 {
     width: 100%;
-  }
-`;
-
-Slots.time = styled.button`
-  ${tw`flex items-center justify-center`}
-  width: 150px;
-  height: 150px;
-  cursor: ${({ disabled }) => (disabled ? "warning" : "pointer")};
-  background: ${({ theme }) => theme.colors.hd_red};
-  border-radius: 7px;
-  border: none;
-
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
-
-  h3 {
-    color: white;
-    text-align: center;
   }
 `;
 

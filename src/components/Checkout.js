@@ -4,7 +4,6 @@ import tw, { styled } from "twin.macro";
 import { useForm } from "react-hook-form";
 import { isValid } from "postcode";
 import { useHistory } from "react-router-dom";
-import scriptLoader from "react-async-script-loader";
 
 // components
 import { Button } from "./Button";
@@ -20,9 +19,9 @@ const CheckoutModal = ({ basket, showModal }) => {
     slot: {},
   });
 
-  console.log(orderDetails);
-
   const [checkoutStep, setCheckoutStep] = useState(1);
+
+  console.log(orderDetails);
 
   const PayPalButton = window.paypal.Buttons.driver("react", {
     React,
@@ -250,7 +249,4 @@ Checkout.grid = styled.ul`
 
 //sb-9zpwc3734285@business.example.com
 //Zq>o$>1z
-
-export default scriptLoader(
-  "https://www.paypal.com/sdk/js?currency=GBP&client-id=Ab6oJnSdECyPV05wRy68D3-5hFcP-lYaNPQeY_JsSrvm0k53x5TXx_9-9BMAWFFAj5ZPoiGh2MkZHDpc"
-)(Checkout);
+export default Checkout;
