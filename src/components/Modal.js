@@ -137,7 +137,7 @@ Modal.content.inner = styled.div`
 
 Modal.propTypes = {
   name: propTypes.string.isRequired,
-  price: propTypes.number.isRequired,
+  price: propTypes.string.isRequired,
   desc: propTypes.string.isRequired,
   img: propTypes.string.isRequired,
   stock: propTypes.number.isRequired,

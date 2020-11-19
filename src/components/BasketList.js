@@ -80,11 +80,11 @@ BasketItem.details = styled.div`
 BasketItem.propTypes = {
   name: propTypes.string.isRequired,
   quantity: propTypes.number.isRequired,
-  price: propTypes.number.isRequired,
-  //   stock: propTypes.number.isRequired,
-  //   index: propTypes.number.isRequired,
-  //   setBasket: propTypes.func.isRequired,
-  //   basket: propTypes.array.isRequired,
+  price: propTypes.string.isRequired,
+  stock: propTypes.number.isRequired,
+  index: propTypes.number.isRequired,
+  setBasket: propTypes.func.isRequired,
+  basket: propTypes.array.isRequired,
 };
 
 const BasketList = ({ basket, setBasket }) => {

@@ -90,7 +90,7 @@ ProductNav.item = styled.li`
 // query cache
 const cache = new QueryCache();
 
-const ProductList = ({ products, showModal }) => {
+const ProductList = ({ showModal }) => {
   // react query data fetching
   const { isLoading, error, data } = useQuery("products", () =>
     axios

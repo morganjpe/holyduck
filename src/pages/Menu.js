@@ -21,6 +21,7 @@ function Menu() {
 
   const showModal = function (data) {
     setActiveModal(true); // display modal
+    setModalData(data);
   };
 
   const closeModal = function () {
