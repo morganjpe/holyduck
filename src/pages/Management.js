@@ -15,7 +15,6 @@ const AddProductInput = ({ getProducts }) => {
     Array.from(e.target).forEach(({ id, value }) =>
       id ? (body[id] = value) : ""
     );
-    console.log(window.localStorage.getItem("token"));
 
     axios
       .post(

@@ -24,6 +24,7 @@ const Basket = ({ setBasket, basket }) => {
 Basket.container = styled.div`
   ${tw`w-full md:w-1/3`}
   padding: 15px;
+  z-index: 10000;
 `;
 
 Basket.container.inner = styled.div`

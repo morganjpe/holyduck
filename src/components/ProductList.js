@@ -6,6 +6,7 @@ import { QueryCache, useQuery, ReactQueryCacheProvider } from "react-query";
 
 // components
 import Product from "./Product";
+import Loading from "./Loading";
 
 const keys = {
   BURGERS: "Burger",
@@ -63,7 +64,8 @@ ProductNav.nav = styled.nav`
   position: sticky;
   top: 0;
   background: white;
-  z-index: 1000;
+  z-index: 1;
+  /* z-index: 1000; */
 `;
 
 ProductNav.ul = styled.ul`
@@ -105,8 +107,9 @@ const ProductList = ({ showModal }) => {
       <h2>Order Here</h2>
       <ProductNav />
       <ReactQueryCacheProvider queryCache={cache}>
+        <Loading />
         {isLoading ? (
-          "loading..."
+          <Loading />
         ) : error ? (
           "there has been an error"
         ) : (
@@ -136,6 +139,7 @@ ProductList.container = styled.section`
   background-color: white;
   padding: 0px 15px;
   border-radius: 6px;
+  height: 1000vh;
 `;
 
 ProductList.list = styled.ul`

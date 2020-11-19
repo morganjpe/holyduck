@@ -78,10 +78,17 @@ const Modal = ({
   return (
     <Modal.container>
       <Modal.overlay onClick={close} />
-      <Modal.content>
+      <div tabIndex="0"></div>
+      <Modal.content
+        id="product-description"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-description_title"
+      >
+        <Modal.close onClick={close}>x</Modal.close>
         <Modal.image img={img} />
         <Modal.content.inner>
-          <h2>{name}</h2>
+          <h2 id="product-description_title">{name}</h2>
           <p>{desc}</p>
           <Toggle quantity={quantity} quantityReducer={quantityReducer} />
           {err ? "you have exeeded total quantity" : ""}
@@ -89,6 +96,7 @@ const Modal = ({
 
         <Button onClick={addToBasket}>Add To Basket</Button>
       </Modal.content>
+      <div tabIndex="0"></div>
     </Modal.container>
   );
 };
@@ -99,7 +107,7 @@ Modal.container = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1000;
+  z-index: 100000;
 `;
 
 Modal.overlay = styled.div`
@@ -119,6 +127,7 @@ Modal.content = styled.div`
   z-index: 5000000;
   overflow: hidden;
   border-radius: 10px;
+  position: relative;
 `;
 
 Modal.image = styled.div`
@@ -133,6 +142,21 @@ Modal.image = styled.div`
 
 Modal.content.inner = styled.div`
   padding: 10px 30px 30px 30px;
+`;
+
+Modal.close = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 22px;
+  cursor: pointer;
+  color: white;
+  background: ${({ theme }) => theme.colors.hd_red};
+  border: none;
 `;
 
 Modal.propTypes = {

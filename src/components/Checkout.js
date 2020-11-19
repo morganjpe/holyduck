@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import tw, { styled } from "twin.macro";
 import { useForm } from "react-hook-form";
@@ -11,15 +11,16 @@ import Slots from "./Slots";
 
 const CheckoutModal = ({ basket, showModal }) => {
   const { register, handleSubmit, errors } = useForm();
-  const history = useHistory();
+
+  const history = useHistory(); // used for page navigation
+
+  const [checkoutStep, setCheckoutStep] = useState(1);
 
   const [orderDetails, setOrderDetails] = useState({
     products: basket,
     address: {},
     slot: {},
   });
-
-  const [checkoutStep, setCheckoutStep] = useState(1);
 
   console.log(orderDetails);
 
@@ -188,6 +189,14 @@ CheckoutModal.form.content = styled.div`
 const Checkout = ({ basket }) => {
   const [modal, showModal] = useState(false);
 
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "initial";
+    }
+  }, [modal]);
+
   const total = () => {
     if (basket && basket.length) {
       return basket
@@ -196,10 +205,6 @@ const Checkout = ({ basket }) => {
         .toFixed(2);
     }
     return 0;
-  };
-
-  const checkout = () => {
-    showModal(true);
   };
 
   return (
@@ -219,17 +224,20 @@ const Checkout = ({ basket }) => {
         <Button
           style={{ borderRadius: "7px" }}
           disabled={!basket.length}
-          onClick={checkout}
+          onClick={() => showModal(true)}
         >
           Checkout Now
         </Button>
+        {modal ? <CheckoutModal basket={basket} showModal={showModal} /> : ""}
       </Checkout.container>
-      {modal ? <CheckoutModal basket={basket} showModal={showModal} /> : ""}
     </>
   );
 };
 
-Checkout.container = styled.div``;
+Checkout.container = styled.div`
+  z-index: 500000;
+  position: relative;
+`;
 
 Checkout.grid = styled.ul`
   list-style: none;
