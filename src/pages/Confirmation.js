@@ -6,7 +6,6 @@ import axios from "axios";
 
 const Confirmation = () => {
   const location = useLocation();
-  console.log(location);
   const ref = location.state.ref;
 
   useEffect(() => {
