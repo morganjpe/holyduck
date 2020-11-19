@@ -3,6 +3,9 @@ import axios from "axios";
 import tw, { styled } from "twin.macro";
 import { findIndex, debounce } from "lodash";
 
+// auth
+import { AuthProvider } from "../components/Authorise";
+
 const AddProductInput = ({ getProducts }) => {
   const addProduct = (e) => {
     e.preventDefault();
@@ -142,45 +145,47 @@ const Management = () => {
   };
 
   return (
-    <div style={{ padding: "50px" }}>
-      <h1>Stock Manager</h1>
-      {message ? message : ""}
-      <Management.table>
-        <tbody>
-          <tr>
-            <td>Name</td>
-            <td>Price</td>
-            <td>Stock</td>
-            <td>Image</td>
-            <td>Group</td>
-            <td>Actions</td>
-          </tr>
-          {products.map(({ id, name, price, stock, img, group }) => {
-            return (
-              <tr key={id}>
-                <td>{name}</td>
-                <td>{price}</td>
-                <td>
-                  <input
-                    onChange={(e) => modifyProductState(e, id, "stock")}
-                    type="text"
-                    value={stock}
-                  />
-                </td>
-                <td>
-                  <img src={img} alt={name} />
-                </td>
-                <td>{group}</td>
-                <td>
-                  <button onClick={() => deleteProduct(id)}>Delete</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Management.table>
-      <AddProductInput getProducts={getProducts} />
-    </div>
+    <AuthProvider>
+      <div style={{ padding: "50px" }}>
+        <h1>Stock Manager</h1>
+        {message ? message : ""}
+        <Management.table>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>Price</td>
+              <td>Stock</td>
+              <td>Image</td>
+              <td>Group</td>
+              <td>Actions</td>
+            </tr>
+            {products.map(({ id, name, price, stock, img, group }) => {
+              return (
+                <tr key={id}>
+                  <td>{name}</td>
+                  <td>{price}</td>
+                  <td>
+                    <input
+                      onChange={(e) => modifyProductState(e, id, "stock")}
+                      type="text"
+                      value={stock}
+                    />
+                  </td>
+                  <td>
+                    <img src={img} alt={name} />
+                  </td>
+                  <td>{group}</td>
+                  <td>
+                    <button onClick={() => deleteProduct(id)}>Delete</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Management.table>
+        <AddProductInput getProducts={getProducts} />
+      </div>
+    </AuthProvider>
   );
 };
 
@@ -198,10 +203,3 @@ Management.table = styled.table`
 `;
 
 export default Management;
-
-// CREATE EXTENSION pgcrypto;
-
-// Insert into users (email, password) values (
-//     'hello@holy-duck.co.uk',
-//      crypt('weloveduck', gen_salt('bf'))
-//  )

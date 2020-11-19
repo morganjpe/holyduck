@@ -18,54 +18,30 @@ import Management from "./pages/Management";
 
 // auth
 import Login from "./components/Login";
-import Authorised from "./components/Authorise";
 
 const App = () => {
-  const [authorised, setAuthorised] = useState(false);
-
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token && token.length) {
-      const decodedToken = jwt_decode(token);
-      if (Date.now() < decodedToken.exp * 1000) {
-        axios
-          .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {
-            headers: {
-              token,
-            },
-          })
-          .then((res) => {
-            if (res.status === 200) setAuthorised(true);
-          })
-          .catch((err) => console.log(err));
-      }
-    }
-  }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <Router>
+        {/* <AuthProvider> */}
         <Switch>
           <Route path="/login">
             <Login />
           </Route>
           <Route path="/orders">
-            <Authorised authorised={authorised}>
-              <Orders authorised={authorised} />
-            </Authorised>
+            <Orders />
           </Route>
           <Route path="/confirmation">
             <Confirmation />
           </Route>
           <Route path="/management">
-            <Authorised authorised={authorised}>
-              <Management />
-            </Authorised>
+            <Management />
           </Route>
           <Route path="/">
             <Menu />
           </Route>
         </Switch>
+        {/* </AuthProvider> */}
       </Router>
     </ThemeProvider>
   );

@@ -1,6 +1,8 @@
 import React from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
+import axios from "axios";
+import { QueryCache, useQuery, ReactQueryCacheProvider } from "react-query";
 
 // components
 import Product from "./Product";
@@ -85,18 +87,43 @@ ProductNav.item = styled.li`
   }
 `;
 
-const ProductList = ({ products, showModal }) => {
-  const burgers = groupMenuItems(products, keys.BURGERS);
-  const wraps = groupMenuItems(products, keys.WRAPS);
+// query cache
+const cache = new QueryCache();
 
-  console.log(products);
+const ProductList = ({ products, showModal }) => {
+  // react query data fetching
+  const { isLoading, error, data } = useQuery("products", () =>
+    axios
+      .get("https://holy-duck-server-42v9n.ondigitalocean.app/menu_items", {
+        crossDomain: true,
+      })
+      .then(({ data }) => data)
+  );
 
   return (
     <ProductList.container>
       <h2>Order Here</h2>
       <ProductNav />
-      <ProductGroup showModal={showModal} name="Burgers" products={burgers} />
-      <ProductGroup showModal={showModal} name="Wraps" products={wraps} />
+      <ReactQueryCacheProvider queryCache={cache}>
+        {isLoading ? (
+          "loading..."
+        ) : error ? (
+          "there has been an error"
+        ) : (
+          <>
+            <ProductGroup
+              showModal={showModal}
+              name="Burgers"
+              products={groupMenuItems(data, keys.BURGERS)}
+            />
+            <ProductGroup
+              showModal={showModal}
+              name="Wraps"
+              products={groupMenuItems(data, keys.WRAPS)}
+            />
+          </>
+        )}
+      </ReactQueryCacheProvider>
     </ProductList.container>
   );
 };
@@ -118,7 +145,6 @@ ProductList.list = styled.ul`
 
 ProductList.propTypes = {
   showModal: propTypes.func.isRequired,
-  products: propTypes.array.isRequired,
 };
 
 export default ProductList;

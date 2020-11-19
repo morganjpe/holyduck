@@ -113,7 +113,7 @@ Product.propTypes = {
   desc: propTypes.string.isRequired,
   stock: propTypes.number.isRequired,
   img: propTypes.string.isRequired,
-  allergens: propTypes.string.isRequired,
+  allergens: propTypes.array.isRequired,
   showModal: propTypes.func.isRequired,
 };
 

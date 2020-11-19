@@ -1,6 +1,4 @@
 import React, { useState, useReducer } from "react";
-import axios from "axios";
-import { useQuery, QueryCache, ReactQueryCacheProvider } from "react-query";
 
 // components
 import Container from "../components/Container";
@@ -13,9 +11,6 @@ import Basket from "../components/Basket";
 // reducers
 import { basketReducer } from "../state/basket";
 
-// query cache
-const cache = new QueryCache();
-
 function Menu() {
   // basket
   const [basket, setBasket] = useReducer(basketReducer, []);
@@ -26,8 +21,6 @@ function Menu() {
 
   const showModal = function (data) {
     setActiveModal(true); // display modal
-    setModalData(data);
-    // bomb()
   };
 
   const closeModal = function () {
@@ -35,41 +28,23 @@ function Menu() {
     setModalData({});
   };
 
-  // react query data fetching
-  const { isLoading, error, data } = useQuery("products", () =>
-    axios
-      .get("https://holy-duck-server-42v9n.ondigitalocean.app/menu_items", {
-        crossDomain: true,
-      })
-      .then(({ data }) => data)
-  );
-
   return (
     <>
       <Header />
-      <ReactQueryCacheProvider queryCache={cache}>
-        {isLoading ? (
-          "loading ..."
-        ) : error ? (
-          "there has been an error"
-        ) : (
-          <Container>
-            <ProductList products={data} showModal={showModal} />
-            <Basket setBasket={setBasket} basket={basket} />
-          </Container>
-        )}
-
-        {activeModal ? (
-          <Modal
-            basket={basket}
-            setBasket={setBasket}
-            close={closeModal}
-            {...modalData}
-          />
-        ) : (
-          ""
-        )}
-      </ReactQueryCacheProvider>
+      <Container>
+        <ProductList showModal={showModal} />
+        <Basket setBasket={setBasket} basket={basket} />
+      </Container>
+      {activeModal ? (
+        <Modal
+          basket={basket}
+          setBasket={setBasket}
+          close={closeModal}
+          {...modalData}
+        />
+      ) : (
+        ""
+      )}
       <Footer />
     </>
   );

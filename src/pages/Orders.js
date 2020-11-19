@@ -4,6 +4,9 @@ import tw, { styled } from "twin.macro";
 import propTypes from "prop-types";
 import io from "socket.io-client";
 
+// auth
+import { AuthProvider } from "../components/Authorise";
+
 /*
  * OrderList Component
  */
@@ -148,7 +151,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <>
+    <AuthProvider>
       <Orders.list>
         {orders.length ? (
           <>
@@ -172,7 +175,7 @@ const Orders = () => {
           "no orders currently"
         )}
       </Orders.list>
-    </>
+    </AuthProvider>
   );
 };
 
