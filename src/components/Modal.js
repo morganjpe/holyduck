@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
 import { findIndex } from "lodash";
@@ -23,6 +23,21 @@ const Modal = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [err, setErr] = useState(false);
+
+  const modal = useRef(null);
+
+  useEffect(() => {
+    if (modal) {
+      const modalElement = modal.current;
+
+      const focusable = modalElement.querySelectorAll("button:not(disabled)");
+
+      console.log(focusable);
+      // modal.current.addEventListener("keydown", (e) => {
+      //   console.log(e);
+      // });
+    }
+  }, [modal]);
 
   const basketPayload = {
     name,
@@ -78,8 +93,8 @@ const Modal = ({
   return (
     <Modal.container>
       <Modal.overlay onClick={close} />
-      <div tabIndex="0"></div>
       <Modal.content
+        ref={modal}
         id="product-description"
         role="dialog"
         aria-modal="true"
@@ -96,7 +111,6 @@ const Modal = ({
 
         <Button onClick={addToBasket}>Add To Basket</Button>
       </Modal.content>
-      <div tabIndex="0"></div>
     </Modal.container>
   );
 };

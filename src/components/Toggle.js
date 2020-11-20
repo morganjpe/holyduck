@@ -5,10 +5,21 @@ import propTypes from "prop-types";
 const Toggle = ({ quantity, quantityReducer }) => {
   return (
     <Toggle.container>
-      <Toggle.button onClick={() => quantityReducer("DECREMENT")}>
+      <Toggle.button
+        disabled={quantity === 1 ? true : false}
+        onClick={() => quantityReducer("DECREMENT")}
+      >
         &minus;
+        <span>
+          {quantity > 1
+            ? `reduce quantity to ${quantity - 1}`
+            : `quantity is set to 1`}
+        </span>
       </Toggle.button>
-      <Toggle.value>{quantity}</Toggle.value>
+      <Toggle.value>
+        {quantity}
+        <span>currently selected to add to basket </span>
+      </Toggle.value>
       <Toggle.button onClick={() => quantityReducer("INCREMENT")}>
         &#43;
       </Toggle.button>
@@ -30,11 +41,26 @@ Toggle.button = styled.button`
   color: ${({ theme }) => theme.colors.hd_red};
   font-weight: 700;
   cursor: pointer;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  span {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
 `;
 
-Toggle.value = styled.span`
-  /* border: none;
-    width:  */
+Toggle.value = styled.div`
+  span {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
 `;
 
 Toggle.propTypes = {

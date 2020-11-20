@@ -1,15 +1,20 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
 
+import SkipToContent from "./SkipToContent";
+
 const Header = () => {
   return (
-    <Header.container>
-      <Header.inner>
-        <Header.logo>
-          <h1>Holy Duck!</h1>
-        </Header.logo>
-      </Header.inner>
-    </Header.container>
+    <>
+      <SkipToContent />
+      <Header.container>
+        <Header.inner>
+          <Header.logo>
+            <h1>Holy Duck!</h1>
+          </Header.logo>
+        </Header.inner>
+      </Header.container>
+    </>
   );
 };
 
