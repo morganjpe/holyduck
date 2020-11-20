@@ -30,12 +30,15 @@ const Modal = ({
     if (modal) {
       const modalElement = modal.current;
 
-      const focusable = modalElement.querySelectorAll("button:not(disabled)");
+      const focusable = Array.from(
+        modalElement.querySelectorAll("button:not(disabled)")
+      );
 
-      console.log(focusable);
-      // modal.current.addEventListener("keydown", (e) => {
-      //   console.log(e);
-      // });
+      focusable[0].focus();
+
+      modalElement.addEventListener("keydown", ({ code }) => {
+        if (code === "Escape") close();
+      });
     }
   }, [modal]);
 
@@ -91,18 +94,19 @@ const Modal = ({
   };
 
   return (
-    <Modal.container>
-      <Modal.overlay onClick={close} />
+    <Modal.container tabindex="-1">
+      <Modal.overlay tabindex="-1" onClick={close} />
       <Modal.content
         ref={modal}
         id="product-description"
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-description_title"
+        tabindex="1"
       >
         <CloseButton onClick={close}>x</CloseButton>
         <Modal.image img={img} />
-        <Modal.content.inner>
+        <Modal.content.inner role="document">
           <h2 id="product-description_title">{name}</h2>
           <p>{desc}</p>
           <Toggle quantity={quantity} quantityReducer={quantityReducer} />
