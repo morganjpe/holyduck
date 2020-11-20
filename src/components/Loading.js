@@ -4,12 +4,17 @@ import tw, { styled } from "twin.macro";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const Loading = () => {
+const Loading = ({ theme }) => {
   return (
-    <div>
-      <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
-    </div>
+    <Loading.container>
+      <Loader type="ThreeDots" color="#4662FF" height={80} width={80} />
+    </Loading.container>
   );
 };
+
+Loading.container = styled.div`
+  ${tw`flex items-center justify-center`}
+  height: 400px;
+`;
 
 export default Loading;

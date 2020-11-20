@@ -5,7 +5,7 @@ import { findIndex } from "lodash";
 
 // components
 import Toggle from "./Toggle";
-import { Button } from "./Button";
+import { Button, CloseButton } from "./Button";
 
 // state commands
 import { CREATE, UPDATE } from "../state/basket/commands";
@@ -85,7 +85,7 @@ const Modal = ({
         aria-modal="true"
         aria-labelledby="product-description_title"
       >
-        <Modal.close onClick={close}>x</Modal.close>
+        <CloseButton onClick={close}>x</CloseButton>
         <Modal.image img={img} />
         <Modal.content.inner>
           <h2 id="product-description_title">{name}</h2>

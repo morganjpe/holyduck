@@ -14,3 +14,18 @@ export const Button = styled.button`
     opacity: 0.9;
   }
 `;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 22px;
+  cursor: pointer;
+  color: white;
+  background: ${({ theme }) => theme.colors.hd_red};
+  border: none;
+`;

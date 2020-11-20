@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -9,7 +9,7 @@ const AuthError = ({ error: { message } }) => (
     <h4>You are not authorised to view this page</h4>
     <p>There has been an error : {message}</p>
     <br />
-    <Link to="/">Home</Link>
+    <Link to="/login">Login</Link>
   </div>
 );
 
@@ -21,24 +21,29 @@ export const AuthProvider = ({ children }) => {
   });
   // auth initial load
   useEffect(() => {
-    axios
-      .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {
-        headers: {
-          token: window.localStorage.getItem("token"), // jwt token
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          return setState({ ...state, user: res.data, status: "success" });
-        }
-        return setState({
-          status: "error",
-          error: { message: res.status },
-          user: null,
-        });
-      })
-      .catch((error) => setState({ status: "error", error, user: null }));
-  }, []);
+    console.log(state);
+    if (state.status === "pending") {
+      axios
+        .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {
+          headers: {
+            token: window.localStorage.getItem("token"), // jwt token
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            return setState({ ...state, user: res.data, status: "success" });
+          }
+          return setState({
+            status: "error",
+            error: { message: res.status },
+            user: null,
+          });
+        })
+        .catch((error) => setState({ status: "error", error, user: null }));
+    } else if (state.error) {
+      window.localStorage.removeItem("token");
+    }
+  }, [state]);
 
   return (
     <AuthContext.Provider value={state}>

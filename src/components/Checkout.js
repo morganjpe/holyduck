@@ -6,7 +6,7 @@ import { isValid } from "postcode";
 import { useHistory } from "react-router-dom";
 
 // components
-import { Button } from "./Button";
+import { Button, CloseButton } from "./Button";
 import Slots from "./Slots";
 
 const CheckoutModal = ({ basket, showModal }) => {
@@ -77,7 +77,17 @@ const CheckoutModal = ({ basket, showModal }) => {
   return (
     <CheckoutModal.container>
       <CheckoutModal.overlay onClick={() => showModal(false)} />
-      <CheckoutModal.group>
+      <div tabIndex="0" />
+      <CheckoutModal.group
+        id="checkout"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="checkout_title"
+      >
+        <h3 id="checkout_title" style={{ display: "none" }}>
+          Checkout
+        </h3>
+        <CloseButton onClick={() => showModal(false)}>x</CloseButton>
         {checkoutStep === 1 ? (
           <CheckoutModal.form onSubmit={handleSubmit(confirmAddress)}>
             <CheckoutModal.form.content>
@@ -132,6 +142,7 @@ const CheckoutModal = ({ basket, showModal }) => {
           />
         )}
       </CheckoutModal.group>
+      <div tabIndex="0" />
     </CheckoutModal.container>
   );
 };
@@ -156,6 +167,7 @@ CheckoutModal.overlay = styled.div`
 
 CheckoutModal.group = styled.div`
   ${tw`w-full md:w-1/3`}
+  position: relative;
   z-index: 50000;
   background-color: white;
   overflow: hidden;

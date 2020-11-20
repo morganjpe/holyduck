@@ -107,7 +107,6 @@ const ProductList = ({ showModal }) => {
       <h2>Order Here</h2>
       <ProductNav />
       <ReactQueryCacheProvider queryCache={cache}>
-        <Loading />
         {isLoading ? (
           <Loading />
         ) : error ? (
@@ -116,7 +115,7 @@ const ProductList = ({ showModal }) => {
           <>
             <ProductGroup
               showModal={showModal}
-              name="Burgers"
+              name="Burger"
               products={groupMenuItems(data, keys.BURGERS)}
             />
             <ProductGroup
