@@ -1,5 +1,3 @@
-# HOLY DUCK
-
 <h1 align="center">Online Takeaway Ordering System for Holy Duck</h1>
 <div align="center">Auto formatted with Prettier</div>
 
