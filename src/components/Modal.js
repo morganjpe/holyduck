@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import propTypes from "prop-types";
 import tw, { styled } from "twin.macro";
 import { findIndex } from "lodash";
@@ -23,24 +23,36 @@ const Modal = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [err, setErr] = useState(false);
-
   const modal = useRef(null);
+
+  const callbackRef = useCallback((inputElement) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);
 
   useEffect(() => {
     if (modal) {
-      const modalElement = modal.current;
+      console.log(modal);
 
-      const focusable = Array.from(
-        modalElement.querySelectorAll("button:not(disabled)")
-      );
+      modal.current.addEventListener("keydown", ({ code }) => {
+        const focusable = Array.from(
+          modal.current.querySelectorAll("button:not([disabled])")
+        );
 
-      focusable[0].focus();
+        if (
+          code === "Tab" &&
+          focusable[focusable.length - 1] === document.activeElement
+        ) {
+          setTimeout(() => {
+            focusable[0].focus();
+          });
+        }
 
-      modalElement.addEventListener("keydown", ({ code }) => {
         if (code === "Escape") close();
       });
     }
-  }, [modal]);
+  }, []);
 
   const basketPayload = {
     name,
@@ -94,8 +106,8 @@ const Modal = ({
   };
 
   return (
-    <Modal.container tabindex="-1">
-      <Modal.overlay tabindex="-1" onClick={close} />
+    <Modal.container>
+      <Modal.overlay onClick={close} />
       <Modal.content
         ref={modal}
         id="product-description"
@@ -104,7 +116,9 @@ const Modal = ({
         aria-labelledby="product-description_title"
         tabindex="1"
       >
-        <CloseButton onClick={close}>x</CloseButton>
+        <CloseButton ref={callbackRef} onClick={close}>
+          x <span>Close</span>
+        </CloseButton>
         <Modal.image img={img} />
         <Modal.content.inner role="document">
           <h2 id="product-description_title">{name}</h2>

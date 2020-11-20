@@ -28,4 +28,12 @@ export const CloseButton = styled.button`
   color: white;
   background: ${({ theme }) => theme.colors.hd_red};
   border: none;
+  span {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
 `;
