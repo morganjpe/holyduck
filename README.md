@@ -16,7 +16,7 @@
 - React Hook Form
 - JWT Authentication/Authorisation
 
-## integration
+## Integration
 
 - Node server powered with Express [Learn More](https://github.com/morganjpe/holy-duck-server)
 - PostgreSQL database
