@@ -26,7 +26,7 @@ const Product = ({
   };
 
   return (
-    <>
+    <Product.li>
       <Product.container
         stock={stock}
         onClick={stock ? () => showModal(modalPayload) : null}
@@ -40,12 +40,19 @@ const Product = ({
           <p>{shortDesc(desc)}</p>
         </Product.desc>
       </Product.container>
-    </>
+    </Product.li>
   );
 };
 
-Product.container = styled.li`
+Product.li = styled.li`
   list-style: none;
+`;
+
+Product.container = styled.button`
+  width: 100%;
+  text-align: left;
+  background: white;
+  border: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

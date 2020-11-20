@@ -16,12 +16,13 @@ const Toggle = ({ quantity, quantityReducer }) => {
             : `quantity is set to 1`}
         </span>
       </Toggle.button>
-      <Toggle.value>
+      <Toggle.value aria-live="polite">
         {quantity}
         <span>currently selected to add to basket </span>
       </Toggle.value>
       <Toggle.button onClick={() => quantityReducer("INCREMENT")}>
         &#43;
+        <span>Add one more to basket</span>
       </Toggle.button>
     </Toggle.container>
   );
