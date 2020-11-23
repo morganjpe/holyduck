@@ -1,7 +1,35 @@
-import React from "react";
-import tw, { styled } from "twin.macro";
-import { findIndex } from "lodash";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+const Slots = () => {
+  const [slots, setSlots] = useState({
+    status: "pending",
+    error: null,
+    data: [],
+  });
+
+  useEffect(() => {
+    if (!slots.length) {
+      axios
+        .get("https://holy-duck-server-42v9n.ondigitalocean.app/slots")
+        .then(({ data }) => {
+          console.log(data);
+          setSlots({ ...slots, status: "success", data });
+        })
+        .catch((error) =>
+          setSlots({ ...slots, status: "error", error: error })
+        );
+    }
+  }, []);
+
+  return slots.length ? <div></div> : "there are no slots available";
+};
+
+export default Slots;
+
+// import tw, { styled } from "twin.macro";
+// import { findIndex } from "lodash";
+// import axios from "axios";
 
 // const Slot = ({ day, time, quantity }) => {
 //   // each card should have a date associated with it
