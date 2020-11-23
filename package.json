@@ -58,5 +58,8 @@
     "twin": {
       "config": "./tailwind.config.js"
     }
+  },
+  "devDependencies": {
+    "msw": "^0.22.2"
   }
 }
