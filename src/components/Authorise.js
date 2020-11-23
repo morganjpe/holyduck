@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
   });
   // auth initial load
   useEffect(() => {
-    console.log(state);
     if (state.status === "pending") {
       axios
         .get("https://holy-duck-server-42v9n.ondigitalocean.app/authorise", {

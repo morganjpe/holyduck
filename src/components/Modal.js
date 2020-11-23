@@ -33,8 +33,6 @@ const Modal = ({
 
   useEffect(() => {
     if (modal) {
-      console.log(modal);
-
       modal.current.addEventListener("keydown", ({ code }) => {
         const focusable = Array.from(
           modal.current.querySelectorAll("button:not([disabled])")

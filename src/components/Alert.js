@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import { divide } from "lodash";
 import React from "react";
 import { styled } from "twin.macro";
 
