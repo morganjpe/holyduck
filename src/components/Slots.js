@@ -9,7 +9,7 @@ const Slots = () => {
   });
 
   useEffect(() => {
-    if (!slots.length) {
+    if (!slots.data.length) {
       axios
         .get("https://holy-duck-server-42v9n.ondigitalocean.app/slots")
         .then(({ data }) => {
@@ -22,7 +22,7 @@ const Slots = () => {
     }
   }, []);
 
-  return slots.length ? <div></div> : "there are no slots available";
+  return slots.data.length ? <div></div> : "there are no slots available";
 };
 
 export default Slots;
