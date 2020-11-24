@@ -2,8 +2,7 @@ import React from "react";
 import {
   render,
   waitForElementToBeRemoved,
-  screen,
-  waitFor,
+  cleanup,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
@@ -16,32 +15,42 @@ import Slots from "../Slots";
 // helpers
 import { formatDate } from "../../helpers";
 
+afterEach(cleanup);
+
+describe("<Slots /> Component", () => {
+  it("renders loading on initial load", () => {
+    const { getByText } = render(<Slots />);
+    expect(getByText(/loading/i)).toBeInTheDocument();
+  });
+
+  //   it.skip("renders a list of slots", async () => {
+  //     // const datestring = await formatDate(new Date());
+  //     // const { getByText } = render(<Slots />);
+  //     // expect(getByText(/there are no slots available/i)).toBeInTheDocument();
+  //     // // await waitForElementToBeRemoved(() =>
+  //     // //   screen.getByText(/there are no slots available/i)
+  //     // // );
+  //     // await waitForElement(() => screen.getByText(datestring));
+  //     // expect(await findByText("18:00")).toBeInTheDocument();
+  //     // expect(await findByText("18:00")).toBeInTheDocument();
+  //     // expect(await findByText("19:00")).toBeInTheDocument();
+  //   });
+});
+
 describe("<Slots /> Component", () => {
   it('renders "no slots available" if there\'s no slots', async () => {
     server.use(
       rest.get("/slots", (req, res, ctx) => {
-        res(ctx.status(200), ctx.json([]));
+        return res(ctx.status(200), ctx.json([]));
       })
     );
+    const { getByText, queryByText } = render(<Slots />);
 
-    const { findByText } = render(<Slots />);
+    expect(getByText(/loading/i)).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => queryByText(/loading/i));
 
     expect(
-      await screen.findByText(/there are no slots available/i)
+      await queryByText(/there are no slots available/i)
     ).toBeInTheDocument();
-  });
-
-  it.skip("renders a list of slots", async () => {
-    const datestring = await formatDate(new Date());
-    render(<Slots />);
-
-    await waitForElementToBeRemoved(() =>
-      screen.getByText(/there are no slots available/i)
-    );
-    console.log("change");
-    await waitFor(() => screen.getByText(datestring));
-
-    // expect(await findByText("18:00")).toBeInTheDocument();
-    // expect(await findByText("19:00")).toBeInTheDocument();
   });
 });

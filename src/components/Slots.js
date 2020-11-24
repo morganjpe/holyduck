@@ -16,6 +16,7 @@ const Slots = () => {
         .get("/slots")
         .then(({ data }) => {
           if (_isMounted.current) {
+            // console.log(data);
             setSlots({ ...slots, status: "success", data });
           }
         })
@@ -31,7 +32,23 @@ const Slots = () => {
     };
   }, [slots]);
 
-  return slots.data.length ? <div></div> : "there are no slots available";
+  console.log(slots.data);
+
+  return (
+    <>
+      {slots.status === "pending" ? (
+        "Loading..."
+      ) : slots.status === "success" ? (
+        slots.data.length ? (
+          <div></div>
+        ) : (
+          "There are no slots available"
+        )
+      ) : (
+        ""
+      )}
+    </>
+  );
 };
 
 export default Slots;
