@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
+// helpers
+import { formatDate } from "../helpers";
+
 export const SlotList = () => {
   const _isMounted = useRef(true);
 
@@ -32,20 +35,26 @@ export const SlotList = () => {
     };
   }, [slots]);
 
-  console.log(slots.data);
-
   return (
     <>
       {slots.status === "pending" ? (
         "Loading..."
       ) : slots.status === "success" ? (
         slots.data.length ? (
-          <div></div>
+          <ul>
+            {slots.data.map((slot) => {
+              return (
+                <li key={slot.date}>
+                  <h5>{formatDate(new Date(slot.date))}</h5>
+                </li>
+              );
+            })}
+          </ul>
         ) : (
           "There are no slots available"
         )
       ) : (
-        ""
+        "there has been an error"
       )}
     </>
   );

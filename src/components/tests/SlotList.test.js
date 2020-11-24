@@ -17,7 +17,7 @@ import { formatDate } from "../../helpers";
 
 afterEach(cleanup);
 
-describe("<Slots /> Component", () => {
+describe("<SlotList /> Component", () => {
   it("renders loading on initial load", () => {
     const { getByText } = render(<SlotList />);
     expect(getByText(/loading/i)).toBeInTheDocument();
@@ -39,16 +39,31 @@ describe("<Slots /> Component", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders a list of slots", async () => {
-    const datestring = await formatDate(new Date());
+  it('renders "there has been an error" when server error occurs', async () => {
+    server.use(
+      rest.get("/slots", (req, res, ctx) => {
+        return res(
+          ctx.status(500),
+          ctx.json({ error: "there has been an error" })
+        );
+      })
+    );
     const { getByText, queryByText } = render(<SlotList />);
 
     expect(getByText(/loading/i)).toBeInTheDocument();
     await waitForElementToBeRemoved(() => queryByText(/loading/i));
 
-    expect(await queryByText(datestring)).toBeInTheDocument();
-    expect(await queryByText("18:00")).toBeInTheDocument();
-    expect(await queryByText("18:00")).toBeInTheDocument();
-    expect(await queryByText("19:00")).toBeInTheDocument();
+    expect(await queryByText(/there has been an error/i)).toBeInTheDocument();
+  });
+
+  it("renders a list of dates for slots", async () => {
+    const date = formatDate(new Date());
+
+    const { getByText, queryByText } = render(<SlotList />);
+
+    expect(getByText(/loading/i)).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => queryByText(/loading/i));
+
+    expect(await queryByText(date)).toBeInTheDocument();
   });
 });
