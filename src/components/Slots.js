@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 const Slots = () => {
+  const _isMounted = useRef(true);
+
   const [slots, setSlots] = useState({
     status: "pending",
     error: null,
@@ -11,16 +13,23 @@ const Slots = () => {
   useEffect(() => {
     if (!slots.data.length) {
       axios
-        .get("https://holy-duck-server-42v9n.ondigitalocean.app/slots")
+        .get("/slots")
         .then(({ data }) => {
-          console.log(data);
-          setSlots({ ...slots, status: "success", data });
+          if (_isMounted.current) {
+            setSlots({ ...slots, status: "success", data });
+          }
         })
-        .catch((error) =>
-          setSlots({ ...slots, status: "error", error: error })
-        );
+        .catch((error) => {
+          if (_isMounted.current) {
+            setSlots({ ...slots, status: "error", error: error });
+          }
+        });
     }
-  }, []);
+
+    return () => {
+      _isMounted.current = false;
+    };
+  }, [slots]);
 
   return slots.data.length ? <div></div> : "there are no slots available";
 };
