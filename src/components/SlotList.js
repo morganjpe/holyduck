@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const Slots = () => {
+export const SlotList = () => {
   const _isMounted = useRef(true);
 
   const [slots, setSlots] = useState({
@@ -50,8 +50,6 @@ const Slots = () => {
     </>
   );
 };
-
-export default Slots;
 
 // import tw, { styled } from "twin.macro";
 // import { findIndex } from "lodash";

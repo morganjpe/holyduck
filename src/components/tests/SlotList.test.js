@@ -10,7 +10,7 @@ import "@testing-library/jest-dom";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 
-import Slots from "../Slots";
+import { SlotList } from "../SlotList";
 
 // helpers
 import { formatDate } from "../../helpers";
@@ -19,7 +19,7 @@ afterEach(cleanup);
 
 describe("<Slots /> Component", () => {
   it("renders loading on initial load", () => {
-    const { getByText } = render(<Slots />);
+    const { getByText } = render(<SlotList />);
     expect(getByText(/loading/i)).toBeInTheDocument();
   });
 
@@ -29,7 +29,7 @@ describe("<Slots /> Component", () => {
         return res(ctx.status(200), ctx.json([]));
       })
     );
-    const { getByText, queryByText } = render(<Slots />);
+    const { getByText, queryByText } = render(<SlotList />);
 
     expect(getByText(/loading/i)).toBeInTheDocument();
     await waitForElementToBeRemoved(() => queryByText(/loading/i));
@@ -41,7 +41,7 @@ describe("<Slots /> Component", () => {
 
   it("renders a list of slots", async () => {
     const datestring = await formatDate(new Date());
-    const { getByText, queryByText } = render(<Slots />);
+    const { getByText, queryByText } = render(<SlotList />);
 
     expect(getByText(/loading/i)).toBeInTheDocument();
     await waitForElementToBeRemoved(() => queryByText(/loading/i));
