@@ -1,8 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import propTypes from "prop-types";
 
 // helpers
 import { formatDate } from "../helpers";
+
+export const Slot = ({ time, quantity }) => {
+  return <button disabled={quantity ? false : true}>{time}</button>;
+};
+
+Slot.propTypes = {
+  time: propTypes.string.isRequired,
+  quantity: propTypes.number.isRequired,
+};
 
 export const SlotList = () => {
   const _isMounted = useRef(true);
@@ -19,7 +29,6 @@ export const SlotList = () => {
         .get("/slots")
         .then(({ data }) => {
           if (_isMounted.current) {
-            // console.log(data);
             setSlots({ ...slots, status: "success", data });
           }
         })
@@ -42,10 +51,22 @@ export const SlotList = () => {
       ) : slots.status === "success" ? (
         slots.data.length ? (
           <ul>
-            {slots.data.map((slot) => {
+            {slots.data.map((group) => {
               return (
-                <li key={slot.date}>
-                  <h5>{formatDate(new Date(slot.date))}</h5>
+                <li data-testid="slot-group" key={group.date}>
+                  <h5>{formatDate(new Date(group.date))}</h5>
+                  <ul>
+                    {Object.keys(group.slots).map((slotKey) => {
+                      return (
+                        <li key={`${group.date}_${slotKey}`}>
+                          <Slot
+                            time={slotKey}
+                            quantity={group.slots[slotKey]}
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </li>
               );
             })}

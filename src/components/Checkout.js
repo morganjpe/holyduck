@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import { Button, CloseButton } from "./Button";
 // import Slots from "./Slots";
 
-const CheckoutModal = ({ basket, showModal }) => {
+export const CheckoutModal = ({ basket, showModal }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const history = useHistory(); // used for page navigation
@@ -199,7 +199,7 @@ CheckoutModal.form.content = styled.div`
   padding: 30px;
 `;
 
-const Checkout = ({ basket }) => {
+export const Checkout = ({ basket }) => {
   const [modal, showModal] = useState(false);
 
   useEffect(() => {
@@ -268,6 +268,4 @@ Checkout.grid = styled.ul`
   }
 `;
 
-//sb-9zpwc3734285@business.example.com
-//Zq>o$>1z
 export default Checkout;
