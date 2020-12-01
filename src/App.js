@@ -2,9 +2,6 @@ import React from "react";
 import { ThemeProvider } from "emotion-theming";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import scriptLoader from "react-async-script-loader";
-
-import axios from "axios";
-
 // theme
 import { theme } from "./theme";
 

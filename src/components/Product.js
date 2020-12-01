@@ -28,6 +28,7 @@ const Product = ({
   return (
     <Product.li>
       <Product.container
+        disabled={!stock ? true : false}
         stock={stock}
         onClick={stock ? () => showModal(modalPayload) : null}
       >
@@ -119,6 +120,7 @@ Product.propTypes = {
   name: propTypes.string.isRequired,
   desc: propTypes.string.isRequired,
   stock: propTypes.number.isRequired,
+  price: propTypes.string.isRequired,
   img: propTypes.string.isRequired,
   allergens: propTypes.array.isRequired,
   showModal: propTypes.func.isRequired,
