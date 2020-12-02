@@ -104,7 +104,9 @@ const ProductList = ({ showModal }) => {
 
   return (
     <ProductList.container id="menu">
-      <h2>Order Here</h2>
+      <h2>
+        Order Here <span>🦆</span>
+      </h2>
       <ProductNav />
       <ReactQueryCacheProvider queryCache={cache}>
         {isLoading ? (
@@ -134,11 +136,11 @@ ProductList.container = styled.section`
   margin-top: -60px;
   ${tw`w-full md:w-2/3`}
   border: 1px solid #eee;
-  height: calc(100vh - ((181px - 60px) + 80px));
+  /* height: calc(100vh - ((181px - 60px) + 80px)); */
   background-color: white;
   padding: 0px 15px;
   border-radius: 6px;
-  height: 1000vh;
+  /* height: 1000vh; */
 `;
 
 ProductList.list = styled.ul`

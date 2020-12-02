@@ -34,6 +34,7 @@ Basket.container.inner = styled.div`
   padding: 15px;
   position: sticky;
   top: 20px;
+  background: white;
 `;
 
 Basket.top = styled.div``;

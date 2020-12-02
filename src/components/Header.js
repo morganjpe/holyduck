@@ -10,7 +10,9 @@ const Header = () => {
       <Header.container>
         <Header.inner>
           <Header.logo>
-            <h1>Holy Duck!</h1>
+            <h1>
+              Holy Duck<span>!</span>
+            </h1>
           </Header.logo>
         </Header.inner>
       </Header.container>
@@ -50,7 +52,25 @@ Header.nav = styled.nav`
 `;
 
 Header.logo = styled.div`
-  ${tw`w-full md:w-1/3`}
+  ${tw`w-full md:w-1/2`}
+  font-size: 32px;
+  animation-delay: 1s;
+  animation: fadeIn 1s linear;
+  span {
+    color: ${({ theme }) => theme.colors.hd_yellow};
+    transform: rotate(14deg) scale(1.3);
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export default Header;

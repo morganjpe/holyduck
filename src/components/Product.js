@@ -98,9 +98,10 @@ Product.desc = styled.div`
       text-align: right;
       margin: 0;
       padding: 5px 10px;
-      background-color: ${({ theme }) => theme.colors.hd_red};
+      background-color: ${({ theme }) => theme.colors.hd_yellow};
       border-radius: 5px;
-      color: white;
+      color: black;
+      font-weight: 700;
     }
   }
 

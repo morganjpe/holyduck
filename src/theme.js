@@ -1,7 +1,6 @@
 export const theme = {
-    colors: {
-        // hd_red: {'rgb(236,96,90)'},
-
-        hd_red: '#4662FF',
-    }
-}
+  colors: {
+    hd_red: "#FF4949",
+    hd_yellow: "#ffc600",
+  },
+};

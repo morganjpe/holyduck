@@ -7,9 +7,11 @@ export const Button = styled.button`
   border: none;
   color: white;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 22px;
   padding: 20px;
   cursor: pointer;
+  font-family: "FrenchFries", sans-serif;
+  letter-spacing: 1px;
   :hover {
     opacity: 0.9;
   }

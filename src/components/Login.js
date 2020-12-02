@@ -70,6 +70,7 @@ Login.form = styled.form`
   position: absolute;
   border: 1px solid #eee;
   border-radius: 6px;
+  background: white;
   label {
     display: block;
   }

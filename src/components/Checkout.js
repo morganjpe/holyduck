@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 
 // components
 import { Button, CloseButton } from "./Button";
-// import Slots from "./Slots";
+import { SlotList } from "./SlotList";
 
 export const CheckoutModal = ({ basket, showModal }) => {
   const { register, handleSubmit, errors } = useForm();
@@ -134,8 +134,7 @@ export const CheckoutModal = ({ basket, showModal }) => {
             <Button>Book my delivery slot</Button>
           </CheckoutModal.form>
         ) : checkoutStep === 2 ? (
-          // <Slots confirmSlot={confirmSlot} />
-          <div></div>
+          <SlotList />
         ) : (
           <PayPalButton
             createOrder={(data, actions) => createOrder(data, actions)}
