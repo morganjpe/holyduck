@@ -24,10 +24,10 @@ const ProductGroup = ({ name, products, showModal }) => {
   return (
     <div id={`${name.toLowerCase()}_link`}>
       <h4>{name}</h4>
-      <p>
+      {/* <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
         soluta?
-      </p>
+      </p> */}
       {products.map((product) => {
         return <Product showModal={showModal} key={product.id} {...product} />;
       })}
@@ -105,7 +105,10 @@ const ProductList = ({ showModal }) => {
   return (
     <ProductList.container id="menu">
       <h2>
-        Order Here <span>🦆</span>
+        Order Here
+        <span aria-label="duck" role="img">
+          🦆
+        </span>
       </h2>
       <ProductNav />
       <ReactQueryCacheProvider queryCache={cache}>
