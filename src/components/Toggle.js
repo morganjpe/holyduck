@@ -2,11 +2,11 @@ import React from "react";
 import tw, { styled, theme } from "twin.macro";
 import propTypes from "prop-types";
 
-const Toggle = ({ quantity, quantityReducer }) => {
+const Toggle = ({ quantity, quantityReducer, preventZero }) => {
   return (
     <Toggle.container>
       <Toggle.button
-        disabled={quantity === 1 ? true : false}
+        disabled={!preventZero ? true : quantity === 1 ? true : false}
         onClick={() => quantityReducer("DECREMENT")}
       >
         &minus;

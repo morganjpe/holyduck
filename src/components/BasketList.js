@@ -45,7 +45,11 @@ const BasketItem = ({
   return (
     <BasketItem.container>
       <BasketItem.group>
-        <Toggle quantity={quantity} quantityReducer={quantityReducer} />
+        <Toggle
+          preventZero={true}
+          quantity={quantity}
+          quantityReducer={quantityReducer}
+        />
         <p>{name}</p>
       </BasketItem.group>
 
