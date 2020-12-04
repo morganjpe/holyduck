@@ -227,7 +227,8 @@ export const Checkout = ({ basket }) => {
             Total: <span>&pound;{total()}</span>
           </li>
           <li>
-            Vat: 20%: <span>&pound;{((total() / 100) * 20).toFixed(2)}</span>
+            Service Charge:{" "}
+            <span>&pound;{((total() / 100) * 20).toFixed(2)}</span>
           </li>
           <li>
             SubTotal: <span>&pound;{(total() * 1.2).toFixed(2)}</span>
