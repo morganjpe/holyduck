@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import scriptLoader from "react-async-script-loader";
-
 import { GlobalStyles } from "twin.macro";
 import GlobalCSS from "./components/GlobalCSS";
 

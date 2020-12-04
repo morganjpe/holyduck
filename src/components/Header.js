@@ -50,7 +50,7 @@ Header.nav = styled.nav`
 `;
 
 Header.logo = styled.h1`
-  ${tw`w-full md:w-1/2 text-6xl`}
+  ${tw`text-6xl`}
   span {
     color: ${theme`colors.hdyellow`};
     transform: rotate(14deg) scale(1.3);

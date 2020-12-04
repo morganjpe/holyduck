@@ -47,7 +47,6 @@ const ProductNav = () => {
     <ProductNav.nav>
       <ProductNav.ul>
         {Object.keys(keys).map((key) => {
-          // return key;
           return (
             <ProductNav.item key={`${keys[key].toLowerCase()}-key`}>
               <a href={`#${keys[key].toLowerCase()}_link`}>{keys[key]}</a>
@@ -66,7 +65,6 @@ ProductNav.nav = styled.nav`
   top: 0;
   background: white;
   z-index: 1;
-  /* z-index: 1000; */
 `;
 
 ProductNav.ul = styled.ul`
@@ -80,7 +78,6 @@ ProductNav.ul = styled.ul`
 
 ProductNav.item = styled.li`
   padding: 20px 40px 20px 0;
-
   a {
     text-decoration: none;
     color: ${theme`colors.hdred`};
@@ -106,7 +103,7 @@ const ProductList = ({ showModal }) => {
   return (
     <ProductList.container id="menu">
       <h2>
-        Order Here
+        Order Here{" "}
         <span aria-label="duck" role="img">
           🦆
         </span>
@@ -143,6 +140,10 @@ ProductList.container = styled.section`
   background-color: white;
   padding: 0px 15px;
   border-radius: 6px;
+
+  h2 {
+    ${tw`text-3xl my-4`}
+  }
 `;
 
 ProductList.list = styled.ul`

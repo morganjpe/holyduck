@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import tw, { styled } from "twin.macro";
 import { findIndex, debounce } from "lodash";
@@ -7,53 +7,134 @@ import { findIndex, debounce } from "lodash";
 import { AuthProvider } from "../components/Authorise";
 
 const AddProductInput = ({ getProducts }) => {
+  const [options, setOptions] = useState([]);
+
+  const optionsRef = useRef(false);
+
+  const addOption = () => {
+    if (optionsRef.current.value.length) {
+      setOptions([...options, optionsRef.current.value]);
+      optionsRef.current.value = "";
+    }
+  };
+
+  const removeOption = (index) => {
+    const shallow = [...options];
+    shallow.splice(index, 1);
+    setOptions(shallow);
+  };
+
   const addProduct = (e) => {
     e.preventDefault();
 
-    const body = {};
+    const elements = e.target.elements;
 
-    Array.from(e.target).forEach(({ id, value }) =>
-      id ? (body[id] = value) : ""
-    );
+    const body = {
+      name: elements.name.value,
+      desc: elements.desc.value,
+      price: elements.price.value,
+      stock: elements.stock.value,
+      img: elements.img.value,
+      allergens: elements.allergens.value,
+      options: elements.options.value,
+    };
 
-    axios
-      .post(
-        "https://holy-duck-server-42v9n.ondigitalocean.app/menu_items",
-        body,
-        {
-          headers: {
-            token: window.localStorage.getItem("token"),
-          },
-        }
-      )
-      .then(({ data }) => {
-        console.log(data);
-        getProducts();
-      });
+    console.log(body);
+
+    // Array.from(e.target).forEach(({ id, value }) =>
+    //   id ? (body[id] = value) : ""
+    // );
+
+    // axios
+    //   .post("http://localhost:3001/menu_items", body, {
+    //     headers: {
+    //       token: window.localStorage.getItem("token"),
+    //     },
+    //   })
+    //   .then(({ data }) => {
+    //     getProducts();
+    //   });
   };
 
   return (
     <div>
       <h2>Add New product</h2>
       <form onSubmit={addProduct}>
-        <input type="text" hidden defaultValue='[""]' id="allergens" />
-        <input type="text" id="name" required placeholder="Name" />
-        <input
-          type="text"
-          id="`desc`"
-          required
-          placeholder="product description"
-        />
-        <input
-          type="number"
-          id="price"
-          step="0.01"
-          required
-          placeholder="Price"
-        />
-        <input type="number" id="stock" required placeholder="Stock Quantity" />
-        <input type="text" id="img" required placeholder="Image URL" />
-        <input type="text" id="group" required placeholder="Menu group name" />
+        <input type="hidden" readOnly defaultValue='[""]' id="allergens" />
+
+        <div>
+          <label htmlFor="name">Product Name</label>
+          <input type="text" id="name" required placeholder="Name" />
+        </div>
+
+        <div>
+          <label htmlFor="desc">Product Name</label>
+          <input type="text" id="desc" required placeholder="description" />
+        </div>
+
+        <div>
+          <label htmlFor="price">Product Price</label>
+          <input
+            type="number"
+            id="price"
+            step="0.01"
+            required
+            placeholder="Price"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="stock">Product Price</label>
+          <input
+            type="number"
+            id="stock"
+            required
+            placeholder="Stock Quantity"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="img">Product Image</label>
+          <input type="text" id="img" required placeholder="Image URL" />
+        </div>
+
+        <div>
+          <label htmlFor="group">Product Group</label>
+          <input
+            type="text"
+            id="group"
+            required
+            placeholder="Menu group name"
+          />
+        </div>
+
+        <div>
+          <input
+            id="options"
+            type="hidden"
+            value={JSON.stringify(options)}
+            readOnly
+          />
+          <div>
+            {options.length
+              ? options.map((option, index) => (
+                  <div onClick={() => removeOption(index)} key={option}>
+                    {option}
+                  </div>
+                ))
+              : "no options"}
+          </div>
+          <input
+            ref={optionsRef}
+            type="text"
+            id="options-input"
+            placeholder="enter an option"
+          />
+          <div onClick={addOption} role="button">
+            Add Option
+          </div>
+        </div>
+
         <button>Add New</button>
       </form>
     </div>
@@ -93,7 +174,7 @@ const Management = () => {
       )
       .then(({ data }) => {
         if (data.stockUpdated) {
-          setMessage("stock updated");
+          setMessage("updated");
           setTimeout(() => setMessage(false), 2000);
         }
       })
@@ -190,11 +271,11 @@ const Management = () => {
 
 Management.table = styled.table`
   ${tw`table-auto`}
+  background: white;
   margin-bottom: 50px;
   td {
     border: 0 solid #eee;
     ${tw`border px-4 py-2`}
-
     img {
       width: 120px;
     }
