@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.35",
+    "@emotion/css": "^11.0.0",
     "@emotion/styled": "^10.0.27",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",

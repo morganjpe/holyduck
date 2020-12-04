@@ -1,8 +1,9 @@
 import React from "react";
-import { ThemeProvider } from "emotion-theming";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import scriptLoader from "react-async-script-loader";
+
 import { GlobalStyles } from "twin.macro";
+import GlobalCSS from "./components/GlobalCSS";
 
 // pages
 import Menu from "./pages/Menu";
@@ -13,6 +14,8 @@ import Login from "./components/Login";
 import Appointments from "./pages/Appointments";
 
 const App = () => {
+  GlobalCSS();
+
   return (
     <Router>
       <GlobalStyles />
