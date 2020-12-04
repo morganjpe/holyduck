@@ -1,7 +1,7 @@
-import { styled } from "twin.macro";
+import { styled, theme } from "twin.macro";
 
 export const Button = styled.button`
-  background: ${({ theme }) => theme.colors.hd_red};
+  background: ${theme`colors.hdred`};
   width: 100%;
   text-align: center;
   border: none;
@@ -28,7 +28,7 @@ export const CloseButton = styled.button`
   line-height: 22px;
   cursor: pointer;
   color: white;
-  background: ${({ theme }) => theme.colors.hd_red};
+  background: ${theme`colors.hdred`};
   border: none;
   span {
     position: absolute;

@@ -1,5 +1,5 @@
 import React from "react";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 import propTypes from "prop-types";
 
 const Toggle = ({ quantity, quantityReducer }) => {
@@ -37,9 +37,9 @@ Toggle.button = styled.button`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid ${({ theme }) => theme.colors.hd_red};
+  border: 2px solid ${theme`colors.hdred`};
   background-color: white;
-  color: ${({ theme }) => theme.colors.hd_red};
+  color: ${theme`colors.hdred`};
   font-weight: 700;
   cursor: pointer;
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};

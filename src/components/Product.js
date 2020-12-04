@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import { styled } from "twin.macro";
+import { styled, theme } from "twin.macro";
 
 const Product = ({
   id,
@@ -98,7 +98,7 @@ Product.desc = styled.div`
       text-align: right;
       margin: 0;
       padding: 5px 10px;
-      background-color: ${({ theme }) => theme.colors.hd_yellow};
+      background-color: ${theme`colors.hdyellow`};
       border-radius: 5px;
       color: black;
       font-weight: 700;

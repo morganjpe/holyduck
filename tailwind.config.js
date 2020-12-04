@@ -5,8 +5,13 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        hdred: "#FF4949",
+        hdyellow: "#ffc600",
+      },
+    },
   },
   variants: {},
   plugins: [],
-}
+};

@@ -1,13 +1,18 @@
 import React from "react";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const Loading = ({ theme }) => {
+const Loading = () => {
   return (
     <Loading.container>
-      <Loader type="ThreeDots" color="#4662FF" height={80} width={80} />
+      <Loader
+        type="ThreeDots"
+        color={theme`colors.hdred`}
+        height={80}
+        width={80}
+      />
     </Loading.container>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 
 import SkipToContent from "./SkipToContent";
 
@@ -57,7 +57,7 @@ Header.logo = styled.div`
   animation-delay: 1s;
   animation: fadeIn 1s linear;
   span {
-    color: ${({ theme }) => theme.colors.hd_yellow};
+    color: ${theme`colors.hdyellow`};
     transform: rotate(14deg) scale(1.3);
     display: inline-block;
     margin-left: 10px;

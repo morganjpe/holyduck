@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import propTypes from "prop-types";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 import { findIndex } from "lodash";
 
 // components
@@ -185,7 +185,7 @@ Modal.close = styled.button`
   line-height: 22px;
   cursor: pointer;
   color: white;
-  background: ${({ theme }) => theme.colors.hd_red};
+  background: ${theme`colors.hdred`};
   border: none;
 `;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 
 const Footer = () => {
   return (
@@ -23,7 +23,7 @@ Footer.container = styled.footer`
   bottom: 0;
   left: 0;
   padding: 10px 0;
-  background: ${({ theme }) => theme.colors.hd_red};
+  background: ${theme`colors.hdred`};
 `;
 
 Footer.inner = styled.div`
@@ -40,7 +40,7 @@ Footer.inner = styled.div`
       color: white;
       text-decoration: none;
       font-weight: 700;
-      color: ${({ theme }) => theme.colors.hd_yellow};
+      color: ${theme`colors.hdyellow`};
       :hover {
         opacity: 0.7;
       }

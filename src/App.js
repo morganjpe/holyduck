@@ -2,8 +2,7 @@ import React from "react";
 import { ThemeProvider } from "emotion-theming";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import scriptLoader from "react-async-script-loader";
-// theme
-import { theme } from "./theme";
+import { GlobalStyles } from "twin.macro";
 
 // pages
 import Menu from "./pages/Menu";
@@ -15,30 +14,29 @@ import Appointments from "./pages/Appointments";
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          <Route path="/appointments">
-            <Appointments />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/orders">
-            <Orders />
-          </Route>
-          <Route path="/confirmation">
-            <Confirmation />
-          </Route>
-          <Route path="/management">
-            <Management />
-          </Route>
-          <Route path="/">
-            <Menu />
-          </Route>
-        </Switch>
-      </Router>
-    </ThemeProvider>
+    <Router>
+      <GlobalStyles />
+      <Switch>
+        <Route path="/appointments">
+          <Appointments />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/orders">
+          <Orders />
+        </Route>
+        <Route path="/confirmation">
+          <Confirmation />
+        </Route>
+        <Route path="/management">
+          <Management />
+        </Route>
+        <Route path="/">
+          <Menu />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 

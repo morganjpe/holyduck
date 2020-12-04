@@ -1,6 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
-import tw, { styled } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
+
 import axios from "axios";
 import { QueryCache, useQuery, ReactQueryCacheProvider } from "react-query";
 
@@ -82,7 +83,7 @@ ProductNav.item = styled.li`
 
   a {
     text-decoration: none;
-    color: ${({ theme }) => theme.colors.hd_red};
+    color: ${theme`colors.hdred`};
     :hover {
       opacity: 0.7;
     }
@@ -139,11 +140,9 @@ ProductList.container = styled.section`
   margin-top: -60px;
   ${tw`w-full md:w-2/3`}
   border: 1px solid #eee;
-  /* height: calc(100vh - ((181px - 60px) + 80px)); */
   background-color: white;
   padding: 0px 15px;
   border-radius: 6px;
-  /* height: 1000vh; */
 `;
 
 ProductList.list = styled.ul`
