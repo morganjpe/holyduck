@@ -10,9 +10,7 @@ const Header = () => {
       <Header.container>
         <Header.inner>
           <Header.logo>
-            <h1>
-              Holy Duck<span>!</span>
-            </h1>
+            Holy Duck<span>!</span>
           </Header.logo>
         </Header.inner>
       </Header.container>
@@ -51,25 +49,13 @@ Header.nav = styled.nav`
   ${tw`w-full md:w-1/3`}
 `;
 
-Header.logo = styled.div`
-  ${tw`w-full md:w-1/2`}
-  font-size: 32px;
-  animation-delay: 1s;
-  animation: fadeIn 1s linear;
+Header.logo = styled.h1`
+  ${tw`w-full md:w-1/2 text-6xl`}
   span {
     color: ${theme`colors.hdyellow`};
     transform: rotate(14deg) scale(1.3);
     display: inline-block;
     margin-left: 10px;
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
   }
 `;
 
