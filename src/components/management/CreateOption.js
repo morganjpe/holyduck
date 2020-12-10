@@ -1,36 +1,29 @@
 import tw, { styled } from "twin.macro";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
 // components
 import { TextInput } from "../Inputs";
 
-const CreateOptions = ({ options, controller = () => {} }) => {
+const CreateOptions = ({ options, setOptions }) => {
   const ref = useRef();
-  const [stateOptions, setStateOptions] = useState(options);
-
-  useEffect(() => {
-    if (stateOptions !== options) {
-      controller(stateOptions);
-    }
-  }, [stateOptions]);
 
   const createOption = () => {
-    const state = [...stateOptions];
-    state.push(ref.current.value);
-    setStateOptions(state);
+    const state = { ...options };
+    state.data.push(ref.current.value);
+    setOptions(state);
     ref.current.value = "";
   };
 
   const deleteOption = (index) => {
-    const state = [...options];
-    state.splice(index, 1);
-    setStateOptions(state);
+    const state = { ...options };
+    state.data.splice(index, 1);
+    setOptions(state);
   };
 
   return (
     <CreateOptions.Container>
       <ul>
-        {stateOptions.map((option, index) => {
+        {options.data.map((option, index) => {
           return (
             <li onClick={() => deleteOption(index)} key={option}>
               {option}

@@ -14,9 +14,20 @@ const Management = () => {
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState(false);
 
+  const [options, setOptions] = useState({
+    data: [],
+    id: null,
+  });
+
   useEffect(() => {
-    getProducts();
-  }, []);
+    if (!products.length) {
+      getProducts();
+    }
+  }, [products]);
+
+  useEffect(() => {
+    updateProduct(JSON.stringify(options.data), options.id, "options");
+  }, [options]);
 
   const getProducts = () => {
     axios.get("http://localhost:7000/menu_items").then(({ data }) => {
@@ -89,6 +100,14 @@ const Management = () => {
     }
   };
 
+  const updateOptions = (newOptions, id) => {
+    const state = { ...options };
+    state.data = newOptions;
+    state.id = id;
+
+    setOptions(state);
+  };
+
   return (
     <AuthProvider>
       <div style={{ padding: "50px" }}>
@@ -154,10 +173,8 @@ const Management = () => {
                   </td>
                   <td>
                     <CreateOptions
-                      options={options}
-                      controller={(newValue) => {
-                        updateProduct(JSON.stringify(newValue), id, "options");
-                      }}
+                      options={{ data: options }}
+                      setOptions={(newOptions) => updateOptions(newOptions, id)}
                     />
                   </td>
                   <td>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import tw, { styled } from "twin.macro";
 import axios from "axios";
 
@@ -7,7 +7,10 @@ import { Button } from "../Button";
 import { TextInput } from "../Inputs";
 
 const AddProduct = ({ getProducts }) => {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState({
+    data: [],
+    id: null,
+  });
 
   const addProduct = (e) => {
     e.preventDefault();
@@ -21,7 +24,7 @@ const AddProduct = ({ getProducts }) => {
       group: elements.group.value,
       img: elements.img.value,
       allergens: elements.allergens.value,
-      options: JSON.stringify(options),
+      options: JSON.stringify(options.data),
     };
 
     axios
@@ -86,7 +89,7 @@ const AddProduct = ({ getProducts }) => {
           />
         </div>
 
-        <CreateOption options={options} controller={setOptions} />
+        <CreateOption options={options} setOptions={setOptions} />
 
         <Button>Add New</Button>
       </form>
